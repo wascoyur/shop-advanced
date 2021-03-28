@@ -18,7 +18,7 @@ const App = () => {
         <Route path='/' component={Home} exact />
         <Route path='/login' component={Login} exact />
         <Route path='/register' component={Register} exact />
-        <Route path='/registercomplete' component={RegisterComplete} exact />
+        <Route path='/register/complete' component={RegisterComplete} exact />
       </Switch>
     </Fragment>
   );

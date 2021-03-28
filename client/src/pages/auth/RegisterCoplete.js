@@ -28,6 +28,31 @@ const RegisterComplete = ({ history }) => {
   );
   const handleSubmit = async e => {
     e.preventDefault();
+    if (!email || !password) {
+      toast.error('Необходимо ввести email и пароль')
+      return
+    }
+    if (password.length < 6) {
+      toast.error('Пароль должен быть больше 6 символов');
+      return
+    }
+    try {
+      const result = await auth.signInWithEmailLink(
+        email,
+        window.location.href
+      );
+      if (result.user.emailVerified) {
+        window.localStorage.removeItem('emailForRegistration');
+        let user = auth.currentUser;
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+        console.log('user', user, 'idTokenResult', idTokenResult);
+        history.push('/')
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
   return (
     <div className='container p-5'>
