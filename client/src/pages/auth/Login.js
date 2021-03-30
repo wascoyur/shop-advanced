@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Loading3QuartersOutlined, MailOutlined } from '@ant-design/icons';
+import {
+  GoogleOutlined,
+  Loading3QuartersOutlined,
+  MailOutlined,
+} from '@ant-design/icons';
 import { Button } from 'antd';
-import { auth } from '../../firebase';
+import { auth, googleAuthProvider } from '../../firebase';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const loginForm = () => (
     <form onSubmit={handleSubmit}>
@@ -41,6 +45,7 @@ const Login = ({ history }) => {
         className='mb-3'
         icon={<MailOutlined />}
         onClick={handleSubmit}
+        size='large'
         disabled={!email || password.length < 6}
       >
         Войти с логином и паролем
@@ -49,7 +54,7 @@ const Login = ({ history }) => {
   );
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
       const { user } = result;
@@ -59,23 +64,59 @@ const Login = ({ history }) => {
         type: 'LOGGED_IN_USER',
         payload: {
           email: user.email,
-          token: idTokenResult.token
-        }
+          token: idTokenResult.token,
+        },
       });
 
-      history.push('/')
+      history.push('/');
     } catch (error) {
       console.log(error);
-      toast.error(error.message)
-      setLoading(false)
+      toast.error(error.message);
+      setLoading(false);
     }
+  };
+
+  const googleLogin =async () => {
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .then(async (result) => {
+        const { user } = result;
+        const idTokenResult = await user.getIdTokenResult();
+        dispatch({
+          type: 'LOGGED_IN_USER',
+          payload: {
+            email: user.email,
+            token: idTokenResult.token,
+          },
+        });
+        history.push('/');
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error(err.message);
+      });
   };
   return (
     <div className='container p-5'>
       <div className='row'>
         <div className='col-md-6 offset-md-3'>
-          <h4>Вход</h4>
+          {loading ? (
+            <h4 className='text-danger'>Loading...</h4>
+          ) : (
+            <h4>Вход</h4>
+          )}
           {loginForm()}
+
+          <Button
+            type='danger'
+            className='mb-3'
+            icon={<GoogleOutlined />}
+            onClick={googleLogin}
+            size='large'
+            // disabled={!email || password.length < 6}
+          >
+            Войти через Google
+          </Button>
         </div>
       </div>
     </div>
