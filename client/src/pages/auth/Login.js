@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { MailOutlined } from '@ant-design/icons';
+import { Loading3QuartersOutlined, MailOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { auth } from '../../firebase';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify'
 
-const Login = () => {
+const Login = ({ history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false)
 
   const loginForm = () => (
     <form onSubmit={handleSubmit}>
@@ -36,7 +41,7 @@ const Login = () => {
         className='mb-3'
         icon={<MailOutlined />}
         onClick={handleSubmit}
-        disabled={!email || !password.length <6}
+        disabled={!email || password.length < 6}
       >
         Войти с логином и паролем
       </Button>
@@ -44,7 +49,26 @@ const Login = () => {
   );
   const handleSubmit = async e => {
     e.preventDefault();
-    console.table(email, password);
+    setLoading(true)
+    try {
+      const result = await auth.signInWithEmailAndPassword(email, password);
+      const { user } = result;
+      const idTokenResult = await user.getIdTokenResult();
+
+      dispatch({
+        type: 'LOGGED_IN_USER',
+        payload: {
+          email: user.email,
+          token: idTokenResult.token
+        }
+      });
+
+      history.push('/')
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
+      setLoading(false)
+    }
   };
   return (
     <div className='container p-5'>
