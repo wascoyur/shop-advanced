@@ -8,6 +8,7 @@ import { Button } from 'antd';
 import { auth, googleAuthProvider } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -76,10 +77,10 @@ const Login = ({ history }) => {
     }
   };
 
-  const googleLogin =async () => {
+  const googleLogin = async () => {
     auth
       .signInWithPopup(googleAuthProvider)
-      .then(async (result) => {
+      .then(async result => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
         dispatch({
@@ -117,6 +118,9 @@ const Login = ({ history }) => {
           >
             Войти через Google
           </Button>
+          <Link to='/forgot/password' className='float-right text-danger'>
+            Восстановить пароль
+          </Link>
         </div>
       </div>
     </div>
