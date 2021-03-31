@@ -28,7 +28,7 @@ const App = () => {
       }
     })
     return ()=> unsubscribe()
-  }, []);
+  }, [dispatch]);
   return (
     <Fragment>
       <Header />

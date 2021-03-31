@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import {useDispatch, useSelector} from 'react-redux'
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Register = () => {
+const Register = ({history}) => {
   const [email, setEmail] = useState('');
+  const { user } = useSelector(state => ({ ...state }));
+  useSelector(() => {
+    if(user && user.token) history.push('/')
+  },[user, history])
 
   const registerForm = () => (
     <form onSubmit={handleSubmit}>
