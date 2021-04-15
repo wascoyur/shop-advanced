@@ -22,7 +22,7 @@ app.use(cors());
 
 app.get('/api', (req, res) => {
   res.json({
-    data: 'hit API',
+    data: 'hit API, new message',
   });
 });
 
