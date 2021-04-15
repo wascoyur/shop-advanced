@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require('dotenv').config();
+const authRoutes = require('./routes/auth.js')
 
 const app = express();
 
@@ -20,11 +21,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cors());
 
-app.get('/api', (req, res) => {
-  res.json({
-    data: 'hit API, new message',
-  });
-});
+//routes middleware
+app.use('/api', authRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server run on port: ${PORT}`));
