@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router()
 
-router.get('/crateupdateuser', (req, res) => {
+router.get('/crateupdate', (req, res) => {
   res.json({
-    data: 'hit API, /crateupdateuser enpoint',
+    data: 'hit API, /crateupdate enpoint',
   });
 });
 
