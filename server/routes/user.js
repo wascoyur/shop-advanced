@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get('/user', (req, res) => {
   res.json({
-    data: `${req.url}  endpoint `,
+    data: `this link:${req.url}  endpoint /user`,
   });
 });
 
