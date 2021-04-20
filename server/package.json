@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server start": "nodemon server.js"
+    "server start": "nodemon server.js --exitcrash"
   },
   "keywords": [],
   "author": "",

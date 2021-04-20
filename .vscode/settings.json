@@ -6,5 +6,6 @@
   "workbench.editor.pinnedTabSizing": "shrink",
   "workbench.editor.tabCloseButton": "left",
   "workbench.editor.tabSizing": "shrink",
-  "workbench.editor.wrapTabs": true
+  "workbench.editor.wrapTabs": true,
+  "git.autofetch": null
 }
