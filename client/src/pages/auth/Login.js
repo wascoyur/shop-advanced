@@ -2,9 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { auth, googleAuthProvider } from '../../firebase';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+const createOrUpdateUser = async (authtoken) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API}/crateupdate`,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -12,13 +25,13 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const { user } = useSelector(state => ({ ...state }));
-  
+  const { user } = useSelector((state) => ({ ...state }));
+
   useEffect(() => {
     if (user && user.token) {
-      history.push('/')
+      history.push('/');
     }
-  },[user, history])
+  }, [user, history]);
 
   const loginForm = () => (
     <form onSubmit={handleSubmit}>
@@ -28,7 +41,7 @@ const Login = ({ history }) => {
           className='form-control'
           value={email}
           placeholder='Введите адрес электроной почты'
-          onChange={e => {
+          onChange={(e) => {
             setEmail(e.target.value);
           }}
         />
@@ -39,7 +52,7 @@ const Login = ({ history }) => {
           type='password'
           className='form-control'
           placeholder='Введите установленный пароль'
-          onChange={e => {
+          onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
@@ -57,13 +70,17 @@ const Login = ({ history }) => {
       </Button>
     </form>
   );
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
+
+      createOrUpdateUser(idTokenResult.token)
+        .then((res) => console.log('resonse:', res))
+        .catch();
 
       dispatch({
         type: 'LOGGED_IN_USER',
@@ -84,7 +101,7 @@ const Login = ({ history }) => {
   const googleLogin = async () => {
     auth
       .signInWithPopup(googleAuthProvider)
-      .then(async result => {
+      .then(async (result) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
         dispatch({
@@ -96,7 +113,7 @@ const Login = ({ history }) => {
         });
         history.push('/');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         toast.error(err.message);
       });
