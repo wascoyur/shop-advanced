@@ -1,4 +1,4 @@
-const admin = require('../middlewares/middlewareAuth.js');
+const admin = require('../firebase/index');
 
 exports.authCheck = (req, res, next)=>{
     console.log(req.headers);
