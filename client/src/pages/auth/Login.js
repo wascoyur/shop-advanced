@@ -8,12 +8,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const createOrUpdateUser = async (authtoken) => {
-  // const domen = 'http://localhost:8000/api/createupdate';
-  const domen = `${process.env.REACT_APP_API}/crateupdate`.replace(/[']/g, '');
-  console.log('env:', domen);
-
   return await axios.post(
-    domen,
+    `${process.env.REACT_APP_API}/crateupdate`,
     {},
     {
       headers: {
@@ -83,19 +79,16 @@ const Login = ({ history }) => {
       const idTokenResult = await user.getIdTokenResult();
 
       createOrUpdateUser(idTokenResult.token)
-        .then((res) => console.log('response: ', res.headers))
-        .catch(err => {
-          console.log('err:', err);
-          
-        });
+        .then((res) => console.log('resonse:', res))
+        .catch();
 
-      // dispatch({
-      //   type: 'LOGGED_IN_USER',
-      //   payload: {
-      //     email: user.email,
-      //     token: idTokenResult.token,
-      //   },
-      // });
+      dispatch({
+        type: 'LOGGED_IN_USER',
+        payload: {
+          email: user.email,
+          token: idTokenResult.token,
+        },
+      });
 
       history.push('/');
     } catch (error) {
