@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const createOrUpdateUser = async (authtoken) => {
   return await axios.post(
-    `${process.env.REACT_APP_API}/crateupdate`,
+    (`${process.env.REACT_APP_API}/crateupdate`).replaceAll(/'/g,''),
     {},
     {
       headers: {
