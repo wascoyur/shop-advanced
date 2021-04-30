@@ -11,6 +11,35 @@ const RegisterComplete = ({ history }) => {
     setEmail(window.localStorage.getItem('emailForRegistration'));
   }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error('Необходимо ввести email и пароль');
+      return;
+    }
+    if (password.length < 6) {
+      toast.error('Пароль должен быть больше 6 символов');
+      return;
+    }
+
+    try {
+      const result = await auth.signInWithEmailLink(
+        email,
+        window.location.href,
+      );
+      if (result.user.emailVerified) {
+        window.localStorage.removeItem('emailForRegistration');
+        let user = auth.currentUser;
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+        console.log('user', user, 'idTokenResult', idTokenResult);
+        history.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
       <input type='email' className='form-control' value={email} disabled />
@@ -19,41 +48,14 @@ const RegisterComplete = ({ history }) => {
         className='form-control'
         value={password}
         placeholder={'Введите пароль'}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button type='submit' className='btn btn-primary'>
         Закончить регистрацию
       </button>
     </form>
   );
-  const handleSubmit = async e => {
-    e.preventDefault();
-    if (!email || !password) {
-      toast.error('Необходимо ввести email и пароль')
-      return
-    }
-    if (password.length < 6) {
-      toast.error('Пароль должен быть больше 6 символов');
-      return
-    }
-    try {
-      const result = await auth.signInWithEmailLink(
-        email,
-        window.location.href
-      );
-      if (result.user.emailVerified) {
-        window.localStorage.removeItem('emailForRegistration');
-        let user = auth.currentUser;
-        await user.updatePassword(password);
-        const idTokenResult = await user.getIdTokenResult();
-        console.log('user', user, 'idTokenResult', idTokenResult);
-        history.push('/')
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-    }
-  };
+
   return (
     <div className='container p-5'>
       <div className='row'>

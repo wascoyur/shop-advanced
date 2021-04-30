@@ -14,6 +14,7 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 
 const App = () => {
   const dispatch = useDispatch();
+  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {

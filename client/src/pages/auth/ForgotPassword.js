@@ -8,14 +8,17 @@ const ForgotPassword = ({ history }) => {
   // const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { user } = useSelector(state => ({ ...state }));
+
   useEffect(() => {
     if (user && user.token) {
       history.push('/')
     }
-  },[user, history])
+  }, [user, history])
+  
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
+
     const config = {
       url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT,
       handleCodeInApp: true,
@@ -30,6 +33,7 @@ const ForgotPassword = ({ history }) => {
       .catch(error => {
         setLoading(false);
         toast.error(error.message);
+        console.log("ERROR MSG IN FORGOT PASSWORD", error);
       });
   };
 
