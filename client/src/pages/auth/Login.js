@@ -9,13 +9,13 @@ import axios from 'axios';
 
 const createOrUpdateUser = async (authtoken) => {
   return await axios.post(
-    (`${process.env.REACT_APP_API}/crateupdate`).replaceAll(/'/g,''),
+    `${process.env.REACT_APP_API}/crateupdate`.replaceAll(/'/g, ''),
     {},
     {
       headers: {
         authtoken,
       },
-    }
+    },
   );
 };
 
@@ -79,16 +79,17 @@ const Login = ({ history }) => {
       const idTokenResult = await user.getIdTokenResult();
 
       createOrUpdateUser(idTokenResult.token)
-        .then((res) => console.log('resonse:', res))
+        .then((res) => {
+          dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult.token,
+            },
+          });
+        })
         .catch();
-
-      dispatch({
-        type: 'LOGGED_IN_USER',
-        payload: {
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
 
       history.push('/');
     } catch (error) {
