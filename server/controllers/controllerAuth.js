@@ -14,7 +14,7 @@ exports.CreateOrUpdateUser = async (req, res) => {
     console.log('user UPD:', user);
     res.json(user);
   } else {
-    const newUser = await newUser({
+    const newUser = await new User({
       email,
       name,
       picture,
