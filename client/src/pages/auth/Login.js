@@ -1,33 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { auth, googleAuthProvider } from "../../firebase";
-import { toast } from "react-toastify";
-import { Button } from "antd";
-import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { auth, googleAuthProvider } from '../../firebase';
+import { toast } from 'react-toastify';
+import { Button } from 'antd';
+import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { createOrUpdateUser } from '../../functions/authcreateUpdateUser';
 
-const createOrUpdateUser = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API}/create-or-update-user`,
-    {},
-    {
-      headers: {
-        authtoken,
-      },
-    }
-  );
-};
 
 const Login = ({ history }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history.push("/");
+    if (user && user.token) history.push('/');
   }, [user, history]);
 
   let dispatch = useDispatch();
@@ -38,22 +28,27 @@ const Login = ({ history }) => {
     // console.table(email, password);
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-      // console.log(result);
+      
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
 
+      
       createOrUpdateUser(idTokenResult.token)
-        .then((res) => console.log("CREATE OR UPDATE RES", res))
+        .then((res) => {
+        console.log(res);  
+          dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult.token,
+              role: res.data.role,
+              _id: res.data._id
+            },
+          });
+        })
         .catch();
-
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: {
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
-      history.push("/");
+      history.push('/');
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -67,14 +62,22 @@ const Login = ({ history }) => {
       .then(async (result) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
-        history.push("/");
+        createOrUpdateUser(idTokenResult.token)
+          .then((res) => {
+            console.log(res);
+            dispatch({
+              type: 'LOGGED_IN_USER',
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+          })
+          .catch();
+        history.push('/');
       })
       .catch((err) => {
         console.log(err);
@@ -84,36 +87,36 @@ const Login = ({ history }) => {
 
   const loginForm = () => (
     <form onSubmit={handleSubmit}>
-      <div className="form-group">
+      <div className='form-group'>
         <input
-          type="email"
-          className="form-control"
+          type='email'
+          className='form-control'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Ваш email"
+          placeholder='Ваш email'
           autoFocus
         />
       </div>
 
-      <div className="form-group">
+      <div className='form-group'>
         <input
-          type="password"
-          className="form-control"
+          type='password'
+          className='form-control'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Ваш пароль"
+          placeholder='Ваш пароль'
         />
       </div>
 
       <br />
       <Button
         onClick={handleSubmit}
-        type="primary"
-        className="mb-3"
+        type='primary'
+        className='mb-3'
         block
-        shape="round"
+        shape='round'
         icon={<MailOutlined />}
-        size="large"
+        size='large'
         disabled={!email || password.length < 6}
       >
         Вход с логином/паролем
@@ -122,11 +125,11 @@ const Login = ({ history }) => {
   );
 
   return (
-    <div className="container p-5">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
+    <div className='container p-5'>
+      <div className='row'>
+        <div className='col-md-6 offset-md-3'>
           {loading ? (
-            <h4 className="text-danger">Loading...</h4>
+            <h4 className='text-danger'>Loading...</h4>
           ) : (
             <h4>Вход</h4>
           )}
@@ -134,17 +137,17 @@ const Login = ({ history }) => {
 
           <Button
             onClick={googleLogin}
-            type="danger"
-            className="mb-3"
+            type='danger'
+            className='mb-3'
             block
-            shape="round"
+            shape='round'
             icon={<GoogleOutlined />}
-            size="large"
+            size='large'
           >
             Войти с помощью Google
           </Button>
 
-          <Link to="/forgot/password" className="float-right text-danger">
+          <Link to='/forgot/password' className='float-right text-danger'>
             Забыл пороль
           </Link>
         </div>
