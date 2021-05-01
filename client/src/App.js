@@ -1,48 +1,52 @@
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import Home from './pages/Home';
-import { Switch, Route } from 'react-router-dom';
-import Header from './components/nav/Header';
-import { Fragment } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import RegisterComplete from './pages/auth/RegisterCoplete';
-import { auth } from './firebase';
-import { useDispatch } from 'react-redux';
-import {useEffect} from 'react'
-import ForgotPassword from './pages/auth/ForgotPassword';
+import React, { useEffect } from "react";
+import { Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Home from "./pages/Home";
+import Header from "./components/nav/Header";
+import RegisterComplete from "./pages/auth/RegisterComplete";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+
+import { auth } from "./firebase";
+import { useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
-  
+
+  // to check firebase auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
+        console.log("user", user);
         dispatch({
-          type: 'LOGGED_IN_USER',
+          type: "LOGGED_IN_USER",
           payload: {
             email: user.email,
-            token:idTokenResult.token
-          }
-        })
+            token: idTokenResult.token,
+          },
+        });
       }
-    })
-    return ()=> unsubscribe()
-  }, [dispatch]);
+    });
+    // cleanup
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <Fragment>
+    <>
       <Header />
       <ToastContainer />
-
       <Switch>
-        <Route path='/' component={Home} exact />
-        <Route path='/login' component={Login} exact />
-        <Route path='/register' component={Register} exact />
-        <Route path='/register/complete' component={RegisterComplete} exact />
-        <Route path='/forgot/password' component={ForgotPassword} exact />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/register/complete" component={RegisterComplete} />
+        <Route exact path="/forgot/password" component={ForgotPassword} />
       </Switch>
-    </Fragment>
+    </>
   );
 };
 

@@ -3,31 +3,31 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { readdirSync } = require('fs');
 require('dotenv').config();
-const authRoutes = require('./routes/auth.js');
-const {readdirSync} = require('fs');
 
+// app
 const app = express();
 
+// db
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: true,
   })
-  .then(() => console.log('DB connect'))
-  .catch((err) => console.log('error connection', err));
+  .then(() => console.log('DB CONNECTED'))
+  .catch((err) => console.log('DB CONNECTION ERR', err));
 
-//middleware
+// middlewares
 app.use(morgan('dev'));
 app.use(express.json({ limit: '2mb' }));
 app.use(cors());
 
-//routes middleware
-app.use('/api', authRoutes);
-readdirSync('./routes').map((item) =>
-  app.use('/api', require('./routes/' + item))
-);
+// routes middleware
+readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server run on port: ${PORT}`));
+// port
+const port = process.env.PORT || 8000;
+
+app.listen(port, () => console.log(`Server is running on port ${port}`));

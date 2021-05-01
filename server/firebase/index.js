@@ -1,10 +1,10 @@
-var admin = require('firebase-admin');
+var admin = require("firebase-admin");
 
-var serviceAccount = require('../configdb/key.json');
+var serviceAccount = require("../config/fbServiceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'shop-advanced-c6026.firebaseapp.com',
+  databaseURL: "https://ecommerce-225c8.firebaseio.com",
 });
 
-module.exports = admin
+module.exports = admin;

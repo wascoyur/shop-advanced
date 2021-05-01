@@ -1,9 +1,10 @@
-const express = require('express');
+const express = require("express");
+
 const router = express.Router();
 
-router.get('/user', (req, res) => {
+router.get("/user", (req, res) => {
   res.json({
-    data: `this link:${req.url}  endpoint /user`,
+    data: "hey you hit user API endpoint",
   });
 });
 
