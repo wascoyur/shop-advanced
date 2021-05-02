@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Home from './pages/Home';
@@ -13,6 +12,8 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import { auth } from './firebase';
 import { useDispatch } from 'react-redux';
 import { currentUser } from './functions/authcreateUpdateUser';
+import History from './pages/user/History';
+import UserRoute from './components/routes/UserRoutes';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const App = () => {
         // console.log("user", user);
         currentUser(idTokenResult.token)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             dispatch({
               type: 'LOGGED_IN_USER',
               payload: {
@@ -56,6 +57,7 @@ const App = () => {
         <Route exact path='/register' component={Register} />
         <Route exact path='/register/complete' component={RegisterComplete} />
         <Route exact path='/forgot/password' component={ForgotPassword} />
+        <UserRoute exact path='/user/history' component={History} />
       </Switch>
     </>
   );
