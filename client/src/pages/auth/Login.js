@@ -21,6 +21,13 @@ const Login = ({ history }) => {
   }, [user, history]);
 
   let dispatch = useDispatch();
+  const roleBaseRedirect = (res) => {
+    if (res.data.role === 'admin') {
+      history.push('/admin/dashboard')
+    } else {
+      history.push('/user/history')
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,11 +38,10 @@ const Login = ({ history }) => {
       
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-
       
       createOrUpdateUser(idTokenResult.token)
         .then((res) => {
-        console.log(res);  
+        // console.log(res);  
           dispatch({
             type: 'LOGGED_IN_USER',
             payload: {
@@ -46,9 +52,11 @@ const Login = ({ history }) => {
               _id: res.data._id
             },
           });
+          roleBaseRedirect(res)
         })
         .catch();
-      history.push('/');
+      // history.push('/');
+      
     } catch (error) {
       console.log(error);
       toast.error(error.message);
