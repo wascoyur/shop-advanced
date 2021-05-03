@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Route } from 'react-router';
 import React from 'react'
+import LoadingToRedirect from './LoadingToRedirect';
 
 const UserRoute = ({ children, ...rest }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -8,7 +9,7 @@ const UserRoute = ({ children, ...rest }) => {
     <Route {...rest} render={() => children}
     />
   ) : (
-    <h1 className='text-danger'>Нужно залогиниться</h1>
+    <LoadingToRedirect/>
   );
 };
 
