@@ -7,5 +7,11 @@
   "workbench.editor.tabCloseButton": "left",
   "workbench.editor.tabSizing": "shrink",
   "workbench.editor.wrapTabs": true,
-  "git.autofetch": null
+  "git.autofetch": null,
+  "gitlens.fileAnnotations.command": "changes",
+  "explorer.incrementalNaming": "smart",
+  "editor.autoClosingBrackets": "always",
+  "editor.codeActionsOnSave": null,
+  "debug.allowBreakpointsEverywhere": true,
+  "editor.tabSize": 2
 }
