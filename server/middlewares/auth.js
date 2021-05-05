@@ -1,4 +1,4 @@
-const admin = require("../firebase");
+const admin = require('../firebase');
 
 exports.authCheck = async (req, res, next) => {
   // console.log(req.headers); // token
@@ -11,7 +11,17 @@ exports.authCheck = async (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).json({
-      err: "Невалидный или истекший token",
+      err: 'Невалидный или истекший token',
     });
+  }
+};
+
+exports.adminCheck = async (req, res, next) => {
+  const { email } = req.data;
+  const adminUser = await User.findOne({ email }).exec();
+  if (adminUser !== 'admin') {
+    res.status(403).json({ err: 'Ресурс администратора. Доступ запрещен.' });
+  } else {
+    next();
   }
 };
