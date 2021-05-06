@@ -18,11 +18,11 @@ exports.authCheck = async (req, res, next) => {
 };
 
 exports.adminCheck = async (req, res, next) => {
-  // console.log('request:', req.user);
+  console.log('request:', req.user);
 
   const { email } = req.user;
   const adminUser = await User.findOne({ email }).exec();
-  if (adminUser !== 'admin') {
+  if (adminUser.role !== 'admin') {
     res.status(403).json({ err: 'Ресурс администратора. Доступ запрещен.' });
   } else {
     next();
