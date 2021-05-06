@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase";
-import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { auth } from '../../firebase';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const Register = ({ history }) => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user]);
+    if (user && user.token) history.push('/');
+  }, [user, history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,36 +22,36 @@ const Register = ({ history }) => {
 
     await auth.sendSignInLinkToEmail(email, config);
     toast.success(
-      `Письмо отправлено ${email}. Пройдите по ссылке для завершения регистрации.`
+      `Письмо отправлено ${email}. Пройдите по ссылке для завершения регистрации.`,
     );
     // save user email in local storage
-    window.localStorage.setItem("emailForRegistration", email);
+    window.localStorage.setItem('emailForRegistration', email);
     // clear state
-    setEmail("");
+    setEmail('');
   };
 
   const registerForm = () => (
     <form onSubmit={handleSubmit}>
       <input
-        type="email"
-        className="form-control"
+        type='email'
+        className='form-control'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Ваш email"
+        placeholder='Ваш email'
         autoFocus
       />
 
       <br />
-      <button type="submit" className="btn btn-raised">
+      <button type='submit' className='btn btn-raised'>
         Регистрация
       </button>
     </form>
   );
 
   return (
-    <div className="container p-5">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
+    <div className='container p-5'>
+      <div className='row'>
+        <div className='col-md-6 offset-md-3'>
           <h4>Регистрация</h4>
           {registerForm()}
         </div>
