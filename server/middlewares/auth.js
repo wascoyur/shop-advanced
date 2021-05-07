@@ -18,7 +18,7 @@ exports.authCheck = async (req, res, next) => {
 };
 
 exports.adminCheck = async (req, res, next) => {
-  console.log('request:', req.user);
+  // console.log('request:', req.user);
 
   const { email } = req.user;
   const adminUser = await User.findOne({ email }).exec();
