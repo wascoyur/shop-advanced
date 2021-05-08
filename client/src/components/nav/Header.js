@@ -59,8 +59,19 @@ const Header = () => {
           icon={<SettingOutlined />}
           title={user.email && user.email.split('@')[0]}
           className='float-right'>
-          <Item key='setting:1'>Опция 1</Item>
-          <Item key='setting:2'>Опция 2</Item>
+          {user && user.role === 'subscriber' ? (
+            <Item>
+              <Link to='/user/history'>Панель управления</Link>
+            </Item>
+          ) : null}
+          {user && user.role === 'admin' ? (
+            <Item>
+              <Link to='/admin/dashboard'>
+                Панель управления администратора
+              </Link>
+            </Item>
+          ) : null}
+
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Выход
           </Item>
