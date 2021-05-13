@@ -2,7 +2,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { createCategory, getCategories } from '../../../functions/category';
+import {
+  createCategory,
+  getCategories,
+  removeCategory,
+} from '../../../functions/category';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const CategoryCreate = () => {
   const [name, setName] = useState('');
@@ -13,6 +19,7 @@ const CategoryCreate = () => {
   useEffect(() => {
     loadCategories();
   }, []);
+
   const loadCategories = () => {
     return getCategories().then((c) => {
       return setCategories(c.data);
@@ -30,12 +37,31 @@ const CategoryCreate = () => {
         setLoading(false);
         setName('');
         toast.success(`Категория ${res.data.name} создана`);
+        loadCategories();
       })
       .catch((err) => {
         setLoading(false);
         // console.log('error:', err);
         if (err.response.status === 400) toast.error(err.response.data);
       });
+  };
+  const handleRemove = async (slug) => {
+    // let confirm = window.confirm('Точно удалить?');
+    // console.log(confirm, slug);
+    if (window.confirm('Точно удалить?')) {
+      removeCategory(slug, user.token)
+        .then((res) => {
+          setLoading(false);
+          toast.error(`Категория "${res.data.name}" удалена`);
+          loadCategories();
+        })
+        .catch((err) => {
+          if (err.response.status === 400) {
+            setLoading(false);
+            toast.error(err.response.data);
+          }
+        });
+    }
   };
 
   const categoryForm = () => (
@@ -70,24 +96,21 @@ const CategoryCreate = () => {
           )}
           {categoryForm()}
           <hr />
-          <div className='container-fluid'>
-            <div className='col-md-2'>Категорий: {categories.length}</div>
-            <div className='row'>
-              <div className='col-md-4'>
-                Список категорий:
-                {categories.map((item) => {
-                  return (
-                    <Fragment>
-                      <div className='row'>
-                        <div className='col-md-2'>{item.name}</div>
-                        <div className='col-md-2'>{item._id}</div>
-                      </div>
-                    </Fragment>
-                  );
-                })}
-              </div>
+          {categories.map((item) => (
+            <div key={item._id} className='alert alert-primary'>
+              {item.name}
+              <span
+                onClick={() => handleRemove(item.slug)}
+                className='btn btn-sm float-right'>
+                <DeleteOutlined className='text-danger' />
+              </span>
+              <Link
+                to={`/admin/category/${item.slug}`}
+                className='btn btn-sm float-right'>
+                <EditOutlined className='text-warning' />
+              </Link>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
