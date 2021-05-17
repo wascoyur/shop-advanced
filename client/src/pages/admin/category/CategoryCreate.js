@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import {
 } from '../../../functions/category';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import CategoryForm from '../../../components/forms/CategoryForm';
 
 const CategoryCreate = () => {
   const [name, setName] = useState('');
@@ -64,24 +65,6 @@ const CategoryCreate = () => {
     }
   };
 
-  const categoryForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className='form-group'>
-        <label>Наименование категории</label>
-        <input
-          type='text'
-          className='form-control'
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          autoFocus
-          required
-        />
-        <br />
-        <button className='btn btn-outline-primary'>Сохранить</button>
-      </div>
-    </form>
-  );
-
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -94,7 +77,11 @@ const CategoryCreate = () => {
           ) : (
             <h4>Создать категорию</h4>
           )}
-          {categoryForm()}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
           <hr />
           {categories.map((item) => (
             <div key={item._id} className='alert alert-primary'>
