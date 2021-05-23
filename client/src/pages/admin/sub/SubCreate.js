@@ -3,7 +3,7 @@ import AdminNav from '../../../components/nav/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { getCategories } from '../../../functions/category';
-import { createSub, getSub, removeSub } from '../../../functions/sub';
+import { createSub, getSub, removeSub, getSubs } from '../../../functions/sub';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import CategoryForm from '../../../components/forms/CategoryForm';
@@ -14,19 +14,20 @@ const SubCreate = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState('');
+  const [subs, setSubs] = useState([]);
 
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     loadCategories();
+    loadSubs();
   }, []);
 
-  const loadCategories = () => {
-    return getCategories().then((c) => {
-      return setCategories(c.data);
-    });
-  };
+  const loadCategories = () =>
+    getCategories().then((c) => setCategories(c.data));
+
+  const loadSubs = () => getSubs().then((c) => setSubs(c.data));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const SubCreate = () => {
         setLoading(false);
         setName('');
         toast.success(`Подкатегория ${res.data.name} создана`);
-        // loadCategories();
+        loadSubs();
       })
       .catch((err) => {
         setLoading(false);
@@ -55,7 +56,7 @@ const SubCreate = () => {
         .then((res) => {
           setLoading(false);
           toast.error(`Подкатегория "${res.data.name}" удалена`);
-          // loadCategories();
+          loadSubs();
         })
         .catch((err) => {
           if (err.response.status === 400) {
@@ -104,7 +105,7 @@ const SubCreate = () => {
           />
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
-          {categories.filter(searched(keyword)).map((item) => (
+          {subs.filter(searched(keyword)).map((item) => (
             <div key={item._id} className='alert alert-primary'>
               {item.name}
               <span
@@ -113,7 +114,7 @@ const SubCreate = () => {
                 <DeleteOutlined className='text-danger' />
               </span>
               <Link
-                to={`/admin/category/${item.slug}`}
+                to={`/admin/sub/${item.slug}`}
                 className='btn btn-sm float-right'>
                 <EditOutlined className='text-warning' />
               </Link>

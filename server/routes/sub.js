@@ -9,7 +9,7 @@ const { authCheck, adminCheck } = require('../middlewares/auth');
 const { create, read, update, remove, list } = require('../controllers/sub');
 
 router.post('/sub/', authCheck, adminCheck, create);
-router.get('/sub', list);
+router.get('/subs/', list);
 router.get('/sub/:slug', read);
 
 router.put('/sub/:slug', authCheck, adminCheck, update);
