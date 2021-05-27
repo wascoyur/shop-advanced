@@ -29,6 +29,7 @@ exports.update = async (req, res) => {
     );
     res.json(updated);
   } catch (error) {
+    console.log('err:', error);
     res.status(400).send('Ошибка обновления подкатегории');
   }
 };
