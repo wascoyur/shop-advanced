@@ -1,10 +1,9 @@
 import React from 'react';
 
 const CategoryForm = ({ handleSubmit, name, setName }) => (
-  
   <form onSubmit={handleSubmit}>
     <div className='form-group'>
-      <label>Наименование категории</label>
+      <label>Наименование</label>
       <input
         type='text'
         className='form-control'
