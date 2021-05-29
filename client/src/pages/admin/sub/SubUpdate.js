@@ -3,7 +3,7 @@ import AdminNav from '../../../components/nav/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { getCategories } from '../../../functions/category';
-import { getSub, updateSub } from '../../../functions/sub';
+import { updateSub, getSub } from '../../../functions/sub';
 import CategoryForm from '../../../components/forms/CategoryForm';
 
 const SubUpdate = ({ match, history }) => {
@@ -11,7 +11,8 @@ const SubUpdate = ({ match, history }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const [categories, setCategories] = useState([]);
-  const [parent, setParent] = useState('');
+  // const [category, setCategory] = useState('');
+  const [parent, setParent] = useState([]);
 
   useEffect(() => {
     loadCategories();
@@ -22,9 +23,9 @@ const SubUpdate = ({ match, history }) => {
     getCategories().then((c) => setCategories(c.data));
 
   const loadSub = () =>
-    getSub(match.params.slug).then((c) => {
-      setName(c.data.name);
-      setParent(c.data.parent);
+    getSub(match.params.slug).then((item) => {
+      setName(item.data.name);
+      setParent(item.data.parent);
     });
 
   const handleSubmit = (e) => {
@@ -37,7 +38,7 @@ const SubUpdate = ({ match, history }) => {
         // console.log('res:', res);
         setLoading(false);
         setName('');
-        toast.success(`Подкатегория "${res.data.name}" изменена`);
+        toast.success(`Подкатегория ${res.data.name} создана`);
         history.push('/admin/sub');
       })
       .catch((err) => {
@@ -57,9 +58,8 @@ const SubUpdate = ({ match, history }) => {
           {loading ? (
             <h4 className='text-danger'>Загружается...</h4>
           ) : (
-            <h4>Создать подкатегорию</h4>
+            <h4>Обновить подкатегорию</h4>
           )}
-
           <div className='form-group'>
             <label>Родительская категория</label>
             <select
@@ -78,12 +78,28 @@ const SubUpdate = ({ match, history }) => {
                 ))}
             </select>
           </div>
-
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}
           />
+          {/* Parent Category: {parent} */}
+          {/* <LocalSearch keyword={keyword} setKeyword={setKeyword} /> */}
+          {/* {subs.filter(searched(keyword)).map((item) => (
+            <div key={item._id} className='alert alert-primary'>
+              {item.name}
+              <span
+                onClick={() => handleRemove(item.slug)}
+                className='btn btn-sm float-right'>
+                <DeleteOutlined className='text-danger' />
+              </span>
+              <Link
+                to={`/admin/sub/${item.slug}`}
+                className='btn btn-sm float-right'>
+                <EditOutlined className='text-warning' />
+              </Link>
+            </div>
+          ))} */}
         </div>
       </div>
     </div>
