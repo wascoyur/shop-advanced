@@ -20,6 +20,13 @@ const AdminNav = () => {
       </ul>
       <ul className='nav flex-column'>
         <li className='nav-item'>
+          <Link to='/admin/product' className='nav-link'>
+            Товар
+          </Link>
+        </li>
+      </ul>
+      <ul className='nav flex-column'>
+        <li className='nav-item'>
           <Link to='/admin/category' className='nav-link'>
             Категории
           </Link>
