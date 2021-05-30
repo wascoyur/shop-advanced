@@ -22,6 +22,7 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+  const { user } = useSelector((state) => ({ ...state }));
   const {
     title,
     description,
@@ -38,8 +39,19 @@ const ProductCreate = () => {
   } = values;
   const handleSubmit = (e) => {
     e.preventDefault();
+    createProduct(values, user.token)
+      .then((res) => console.log(res))
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          toast.error(error.response.data);
+        }
+      });
   };
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -117,7 +129,7 @@ const ProductCreate = () => {
             <div className='form-group'>
               <label>Брэнд</label>
               <select
-                name='brands'
+                name='brand'
                 className='form-control'
                 onChange={handleChange}>
                 <option>Выберите значение</option>
