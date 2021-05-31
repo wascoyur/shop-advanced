@@ -37,10 +37,15 @@ const ProductCreate = () => {
     color,
     brand,
   } = values;
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createProduct(values, user.token)
-      .then((res) => console.log(res))
+    await createProduct(values, user.token)
+      .then((res) => {
+        console.log('res', res);
+        window.alert(`Товар "${res.data.title}" создан`);
+        window.location.reload();
+      })
       .catch((error) => {
         console.log(error);
         if (error.response.status === 400) {

@@ -6,6 +6,7 @@ exports.create = async (req, res) => {
     console.log(req.body);
     req.body.slug = slugify(req.body.title);
     const newProduct = await new Product(req.body).save();
+    // console.log('newProduct:', newProduct);
     res.json(newProduct);
   } catch (error) {
     console.log(error);
