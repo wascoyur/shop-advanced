@@ -13,3 +13,10 @@ exports.create = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+exports.read = async (req, res) => {
+  try {
+    let products = await Product.find({});
+    res.json(products);
+  } catch (error) {}
+};
