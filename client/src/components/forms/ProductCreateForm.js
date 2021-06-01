@@ -6,6 +6,7 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
     description,
     price,
     category,
+    categories,
     subs,
     shipping,
     quantity,
@@ -89,7 +90,27 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
           ))}
         </select>
       </div>
+
+      <div className='form-group'>
+        <label>Категория товара</label>
+        <select
+          name='category'
+          className='form-control'
+          onChange={(e) => handleChange(e)}>
+          <option>Выберите категорию товара</option>
+          {categories &&
+            categories.length > 0 &&
+            categories.map((item) => (
+              <option key={item._id} value={item._id}>
+                {item.name}
+              </option>
+            ))}
+        </select>
+        {/* {JSON.stringify(category)} */}
+      </div>
+
       <button className='btn btn-outline-info'>Сохранить</button>
+      {/* {categories && categories.length} */}
     </form>
   );
 };

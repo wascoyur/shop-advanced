@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createProduct } from '../../../functions/product';
 import ProductCreateForm from '../../../components/forms/ProductCreateForm';
+import { getCategories } from '../../../functions/category';
 
 const initialState = {
   title: '',
@@ -25,6 +26,16 @@ const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const { user } = useSelector((state) => ({ ...state }));
 
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = () => {
+    getCategories().then((item) =>
+      setValues({ ...values, categories: item.data }),
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await createProduct(values, user.token)
@@ -39,6 +50,7 @@ const ProductCreate = () => {
         toast.error(error.response.data.error);
       });
   };
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -52,6 +64,7 @@ const ProductCreate = () => {
         <div className='col-md-10'>
           <h4>Создание продукта</h4>
           <hr />
+          {/* {JSON.stringify(values.categories)} */}
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
