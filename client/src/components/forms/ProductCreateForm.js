@@ -1,4 +1,7 @@
 import React from 'react';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 const ProductCreateForm = ({
   handleSubmit,
@@ -7,6 +10,7 @@ const ProductCreateForm = ({
   handleCategoryChange,
   subOptions,
   showSub,
+  setValues,
 }) => {
   const {
     title,
@@ -23,6 +27,7 @@ const ProductCreateForm = ({
     color,
     brand,
   } = values;
+
   return (
     <form onSubmit={handleSubmit}>
       <div className='form-group'>
@@ -113,9 +118,21 @@ const ProductCreateForm = ({
               </option>
             ))}
         </select>
-        {subOptions ? subOptions.length : ' NO'}
       </div>
-
+      <div>
+        <label>Подгатегории</label>
+        <Select
+          mode='multiple'
+          allowclear='true'
+          style={{ width: '100%' }}
+          placeholder='Пожайлуста выберите'
+          value={subs}
+          onChange={(value) => setValues({ ...values, subs: value })}>
+          <Option value='one'>Subs1</Option>
+          <Option value='two'>Subs2</Option>
+        </Select>
+      </div>
+      {JSON.stringify(subs)}
       <button className='btn btn-outline-info'>Сохранить</button>
       {/* {categories && categories.length} */}
     </form>
