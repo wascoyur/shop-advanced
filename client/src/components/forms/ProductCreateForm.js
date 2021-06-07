@@ -5,6 +5,8 @@ const ProductCreateForm = ({
   handleChange,
   values,
   handleCategoryChange,
+  subOptions,
+  showSub,
 }) => {
   const {
     title,
@@ -111,7 +113,7 @@ const ProductCreateForm = ({
               </option>
             ))}
         </select>
-        {/* {JSON.stringify(category)} */}
+        {subOptions ? subOptions.length : ' NO'}
       </div>
 
       <button className='btn btn-outline-info'>Сохранить</button>
