@@ -1,5 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
+import FileUpload from './FileUpload';
 
 const { Option } = Select;
 
@@ -138,7 +139,9 @@ const ProductCreateForm = ({
           </Select>
         </div>
       )}
-      <div>{JSON.stringify(subs)}</div>
+      <div className='p-3'>
+        <FileUpload />
+      </div>
 
       <button className='btn btn-outline-info'>Сохранить</button>
       {/* {categories && categories.length} */}
