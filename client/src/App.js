@@ -57,7 +57,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div>
       <Header />
       <ToastContainer />
       <Switch>
@@ -81,7 +81,7 @@ const App = () => {
         {/* <AdminRoute exact path='/admin/products' component={ProductCreate} /> */}
         <AdminRoute exact path='/admin/product' component={ProductCreate} />
       </Switch>
-    </>
+    </div>
   );
 };
 
