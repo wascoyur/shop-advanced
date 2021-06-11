@@ -4,10 +4,9 @@ const { populate } = require('../models/product');
 
 exports.create = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     req.body.slug = slugify(req.body.title);
     const newProduct = await new Product(req.body).save();
-    // console.log('newProduct:', newProduct);
     res.json(newProduct);
   } catch (error) {
     console.log(error);
@@ -25,4 +24,16 @@ exports.listAll = async (req, res) => {
       .exec();
     res.json(products);
   } catch (error) {}
+};
+
+exports.remove = async (req, res) => {
+  try {
+    const deleted = await Product.findOneAndRemove({
+      slug: req.params.slug,
+    }).exec();
+    res.json(deleted);
+  } catch (error) {
+    console.log('error', error);
+    return res.status(400).send('Ошибка удаления продукта');
+  }
 };
