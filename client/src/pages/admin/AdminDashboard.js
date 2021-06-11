@@ -3,9 +3,10 @@ import AdminNav from '../../components/nav/AdminNav';
 import { getProductsByCount } from '../../functions/product';
 import { Spin, Space } from 'antd';
 import { Row, Col } from 'antd';
+import AdminProductCard from '../../components/cards/AdminProductCard';
 
 const AdminDashboard = () => {
-  const [products, setProducts] = useState('');
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -31,17 +32,23 @@ const AdminDashboard = () => {
         <div className='col-md-2'>
           <AdminNav />
         </div>
-        <Row justify='center'>
-          <Col>Admin Dashboard</Col>
-        </Row>
 
-        {loading ? (
-          <Space size='large'>
-            <Spin size='large'></Spin>
-          </Space>
-        ) : (
-          <Col>{JSON.stringify(products)}</Col>
-        )}
+        <div className='col'>
+          {loading ? (
+            <h4 className='text-danger'>Загрузка...</h4>
+          ) : (
+            <Row justify='center'>
+              <h4>Все товары</h4>
+            </Row>
+          )}
+          <Row>
+            {products.map((p) => (
+              <Col md={12} key={p._id}>
+                <AdminProductCard product={p} />
+              </Col>
+            ))}
+          </Row>
+        </div>
       </div>
     </div>
   );
