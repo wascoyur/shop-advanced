@@ -4,7 +4,10 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
-const AdminProductCard = ({ product: { title, images, description } }) => {
+const AdminProductCard = ({
+  product: { title, images, description, _id },
+  handleRemove,
+}) => {
   return (
     <Card
       cover={
@@ -16,7 +19,11 @@ const AdminProductCard = ({ product: { title, images, description } }) => {
         />
       }
       actions={[
-        <DeleteOutlined key='delete' className='text-warning' />,
+        <DeleteOutlined
+          key='delete'
+          className='text-warning'
+          onClick={() => handleRemove(_id)}
+        />,
         <EditOutlined key='edit' className='text-danger' />,
       ]}>
       <Meta

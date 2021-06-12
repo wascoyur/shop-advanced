@@ -29,7 +29,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                 { headers: { authtoken: user ? user.token : '' } },
               )
               .then((res) => {
-                console.log('image upload', res);
+                // console.log('image upload', res);
                 setLoading(true);
                 allUploadedFiles.push(res.data);
                 setValues({ ...values, images: allUploadedFiles });

@@ -3,10 +3,14 @@ import { getProductsByCount } from '../../../functions/product';
 import { Row, Col } from 'antd';
 import AdminProductCard from '../../../components/cards/AdminProductCard';
 import AdminNav from '../../../components/nav/AdminNav';
+import { removeProduct } from '../../../functions/product';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     loadAllProducts();
@@ -23,6 +27,20 @@ const AllProducts = () => {
         setLoading(false);
         console.log(err);
       });
+  };
+
+  const handleRemove = (id) => {
+    if (window.confirm('Точно удалить?')) {
+      // console.log('remove:', id);
+      removeProduct(id, user.token)
+        .then((res) => {
+          loadAllProducts();
+          toast.error(`${res.data.title} удален`);
+        })
+        .catch((err) => {
+          if (err.response.status === 400) toast.error(err.response.data);
+        });
+    }
   };
 
   return (
@@ -42,7 +60,7 @@ const AllProducts = () => {
           <Row>
             {products.map((p) => (
               <div className='col-md-4 pb-4' key={p._id}>
-                <AdminProductCard product={p} />
+                <AdminProductCard product={p} handleRemove={handleRemove} />
               </div>
             ))}
           </Row>

@@ -29,11 +29,25 @@ exports.listAll = async (req, res) => {
 exports.remove = async (req, res) => {
   try {
     const deleted = await Product.findOneAndRemove({
-      slug: req.params.slug,
+      _id: req.params.slug,
     }).exec();
+    console.log('slug: req.params.slug', req.params.slug, 'deleted', deleted);
+
     res.json(deleted);
   } catch (error) {
     console.log('error', error);
     return res.status(400).send('Ошибка удаления продукта');
   }
 };
+
+// exports.getOne = async (req, res) => {
+//   try {
+//     const oneProduct = await Product.findOne({ _id: req.params.slug }).exec();
+//     console.log('slug: req.params.slug', req.params.slug, 'one', oneProduct);
+
+//     res.json(oneProduct);
+//   } catch (error) {
+//     console.log('error', error);
+//     // return res.status(400).send('Ошибка удаления продукта');
+//   }
+// };

@@ -45,7 +45,7 @@ const ProductCreate = () => {
     e.preventDefault();
     await createProduct(values, user.token)
       .then((res) => {
-        console.log('res', res);
+        // console.log('res', res);
         window.alert(`Товар "${res.data.title}" создан`);
         window.location.reload();
       })
@@ -65,7 +65,7 @@ const ProductCreate = () => {
     // console.log('e.target.value ', e.target.value);
     setValues({ ...values, subs: [], category: e.target.value });
     getCategorySubs(e.target.value).then((res) => {
-      console.log('getCategorySubs: res.data', res.data);
+      // console.log('getCategorySubs: res.data', res.data);
       setSubOptions(res.data);
     });
     setShowSub(true);
