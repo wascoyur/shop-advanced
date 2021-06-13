@@ -43,6 +43,10 @@ const AllProducts = () => {
     }
   };
 
+  const handleEdit = (id) => {
+    // console.log('edit', id);
+  };
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -60,7 +64,11 @@ const AllProducts = () => {
           <Row>
             {products.map((p) => (
               <div className='col-md-4 pb-4' key={p._id}>
-                <AdminProductCard product={p} handleRemove={handleRemove} />
+                <AdminProductCard
+                  product={p}
+                  handleRemove={handleRemove}
+                  handleEdit={handleEdit}
+                />
               </div>
             ))}
           </Row>
