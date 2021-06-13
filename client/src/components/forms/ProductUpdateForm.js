@@ -66,7 +66,7 @@ const ProductUpdateForm = ({
           name='shipping'
           className='form-control'
           onChange={handleChange}
-          defaultValue='shipping'>
+          value={shipping === 'Да' ? 'Да' : 'Нет'}>
           <option value='Нет'>Нет</option>
           <option value='Да'>Да</option>
         </select>
@@ -77,14 +77,18 @@ const ProductUpdateForm = ({
           type='number'
           name='quantity'
           className='form-control'
-          defaultValue={quantity}
+          value={quantity}
           onChange={handleChange}
         />
       </div>
       <div className='form-group'>
         <label>Цвет</label>
-        <select name='color' className='form-control' onChange={handleChange}>
-          <option defaultValue={color}>Выберите значение</option>
+        <select
+          name='color'
+          className='form-control'
+          onChange={handleChange}
+          value={color}>
+          <option>Выберите цвет</option>
           {colors.map((i) => (
             <option key={i} value={i}>
               {i}
@@ -94,8 +98,12 @@ const ProductUpdateForm = ({
       </div>
       <div className='form-group'>
         <label>Брэнд</label>
-        <select name='brand' className='form-control' onChange={handleChange}>
-          <option>Выберите значение</option>
+        <select
+          name='brand'
+          className='form-control'
+          onChange={handleChange}
+          value={brand}>
+          <option>Выберите Брэнд</option>
           {brands.map((i) => (
             <option key={i} value={i}>
               {i}
@@ -110,7 +118,7 @@ const ProductUpdateForm = ({
           name='category'
           className='form-control'
           onChange={(e) => handleCategoryChange(e)}>
-          <option>Выберите категорию товара</option>
+          <option>{category.name}</option>
           {categories &&
             categories.length > 0 &&
             categories.map((item) => (
