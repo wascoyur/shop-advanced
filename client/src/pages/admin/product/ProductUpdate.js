@@ -4,6 +4,7 @@ import AdminNav from '../../../components/nav/AdminNav';
 import { Col } from 'antd';
 import { useParams } from 'react-router';
 import { getProduct } from '../../../functions/product';
+import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
 
 const initialState = {
   title: '',
@@ -38,6 +39,13 @@ const ProductUpdate = ({ match }) => {
       })
       .catch((err) => console.log('err', err));
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className='container-fluid'>
@@ -47,7 +55,12 @@ const ProductUpdate = ({ match }) => {
         </div>
         <Col md={10}>
           <h4>Редактирование товара</h4>
-          {/* {JSON.stringify(values)} */}
+          <ProductUpdateForm
+            values={values}
+            handleSubmit={handleSubmit}
+            handleChange={handleChange}
+            setValues={setValues}
+          />
         </Col>
       </div>
     </div>
