@@ -40,11 +40,13 @@ exports.remove = async (req, res) => {
   }
 };
 
-exports.getOneProduct = async (req, res) => {
+exports.read = async (req, res) => {
   try {
-    const oneProduct = await Product.findOne({ _id: req.params.slug }).exec();
+    const oneProduct = await Product.findOne({ _id: req.params.slug })
+      .populate('category')
+      .populate('subs')
+      .exec();
     console.log('slug: req.params.slug', req.params.slug, 'one', oneProduct);
-
     res.json(oneProduct);
   } catch (error) {
     console.log('error', error);

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AdminNav from '../../../components/nav/AdminNav';
 import { Col } from 'antd';
+import { useParams } from 'react-router';
 
 const ProductUpdate = ({ match }) => {
   const { user } = useSelector((state) => ({ ...state }));
-  console.log('id: ', match.params);
+  const { id } = match.params;
+  console.log(id);
 
   return (
     <div className='container-fluid'>
