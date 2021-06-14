@@ -11,13 +11,13 @@ const ProductUpdateForm = ({
   subOptions,
   showSub,
   setValues,
+  categories,
 }) => {
   const {
     title,
     description,
     price,
     category,
-    categories,
     subs,
     shipping,
     quantity,
@@ -114,6 +114,7 @@ const ProductUpdateForm = ({
 
       <div className='form-group'>
         <label>Категория товара</label>
+        {/* {JSON.stringify(values)} */}
         <select
           name='category'
           className='form-control'

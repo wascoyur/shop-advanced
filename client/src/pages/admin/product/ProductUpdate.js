@@ -5,12 +5,12 @@ import { Col } from 'antd';
 import { useParams } from 'react-router';
 import { getProduct } from '../../../functions/product';
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
+import { getCategories, getCategorySubs } from '../../../functions/category';
 
 const initialState = {
   title: '',
   description: '',
   price: '',
-  cetegories: '',
   category: '',
   subs: [],
   shipping: '',
@@ -25,26 +25,50 @@ const initialState = {
 const ProductUpdate = ({ match }) => {
   const [values, setValues] = useState(initialState);
   const { user } = useSelector((state) => ({ ...state }));
+  const [subOptions, setSubOptions] = useState([]);
+  const [showSub, setShowSub] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
   const { id } = match.params;
   // console.log(id);
   useEffect(() => {
     loadProduct();
+    loadCategories();
   }, []);
 
   const loadProduct = () => {
     getProduct(id)
       .then((product) => {
-        console.log('product', product.data);
+        // console.log('product', product.data);
         setValues({ ...values, ...product.data });
       })
       .catch((err) => console.log('err', err));
   };
+
+  const loadCategories = () => {
+    getCategories().then((item) => {
+      console.log('item', item.data);
+      setCategories(item.data);
+      console.log('categories', categories);
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    // console.log('e.target.value ', e.target.value);
+    setValues({ ...values, subs: [], category: e.target.value });
+    getCategorySubs(e.target.value).then((res) => {
+      // console.log('getCategorySubs: res.data', res.data);
+      setSubOptions(res.data);
+    });
+    setShowSub(true);
   };
 
   return (
@@ -55,12 +79,15 @@ const ProductUpdate = ({ match }) => {
         </div>
         <Col md={10}>
           <h4>Редактирование товара</h4>
-          {JSON.stringify(values)}
+          {/* {JSON.stringify(categories)} */}
           <ProductUpdateForm
             values={values}
             handleSubmit={handleSubmit}
             handleChange={handleChange}
             setValues={setValues}
+            handleCategoryChange={handleCategoryChange}
+            categories={categories}
+            subOptions={subOptions}
           />
         </Col>
       </div>
