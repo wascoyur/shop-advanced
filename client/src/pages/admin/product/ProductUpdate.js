@@ -30,6 +30,7 @@ const ProductUpdate = ({ match }) => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [arrayOfSubs, setArrayOfSubs] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const { id } = match.params;
   // console.log(id);
   useEffect(() => {
@@ -71,13 +72,16 @@ const ProductUpdate = ({ match }) => {
   };
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    // console.log('e.target.value ', e.target.value);
-    setValues({ ...values, subs: [], category: e.target.value });
+    setValues({ ...values, subs: [] });
+
+    setSelectedCategory(e.target.value);
     getCategorySubs(e.target.value).then((res) => {
-      // console.log('getCategorySubs: res.data', res.data);
       setSubOptions(res.data);
     });
-    setShowSub(true);
+    if (values.category._id === e.target.value) {
+      loadProduct();
+    }
+    setArrayOfSubs([]);
   };
 
   return (
@@ -88,7 +92,7 @@ const ProductUpdate = ({ match }) => {
         </div>
         <Col md={10}>
           <h4>Редактирование товара</h4>
-          {/* {JSON.stringify(categories)} */}
+          {JSON.stringify(arrayOfSubs)}
           <ProductUpdateForm
             values={values}
             handleSubmit={handleSubmit}
@@ -99,6 +103,7 @@ const ProductUpdate = ({ match }) => {
             subOptions={subOptions}
             arrayOfSubs={arrayOfSubs}
             setArrayOfSubs={setArrayOfSubs}
+            selectedCategory={selectedCategory}
           />
         </Col>
       </div>

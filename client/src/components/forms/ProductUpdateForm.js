@@ -14,6 +14,7 @@ const ProductUpdateForm = ({
   categories,
   arrayOfSubs,
   setArrayOfSubs,
+  selectedCategory,
 }) => {
   const {
     title,
@@ -120,8 +121,9 @@ const ProductUpdateForm = ({
         <select
           name='category'
           className='form-control'
-          onChange={(e) => handleCategoryChange(e)}>
-          <option>{category.name}</option>
+          onChange={(e) => handleCategoryChange(e)}
+          value={selectedCategory ? selectedCategory : category._id}>
+          {/* <option>{category.name}</option> */}
           {categories &&
             categories.length > 0 &&
             categories.map((item) => (
@@ -134,7 +136,7 @@ const ProductUpdateForm = ({
 
       <div>
         <label>Подгатегории</label>
-        {/* {JSON.stringify(arrayOfSubIds)} */}
+        {JSON.stringify(arrayOfSubs)}
         <Select
           mode='multiple'
           allowclear='true'
