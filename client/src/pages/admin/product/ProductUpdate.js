@@ -6,6 +6,8 @@ import { useParams } from 'react-router';
 import { getProduct } from '../../../functions/product';
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
 import { getCategories, getCategorySubs } from '../../../functions/category';
+import FileUpload from '../../../components/forms/FileUpload';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const initialState = {
   title: '',
@@ -91,8 +93,21 @@ const ProductUpdate = ({ match }) => {
           <AdminNav />
         </div>
         <Col md={10}>
-          <h4>Редактирование товара</h4>
-          {JSON.stringify(arrayOfSubs)}
+          {loading ? (
+            <LoadingOutlined className='text-danger h1' />
+          ) : (
+            <h4>Редактирование товара</h4>
+          )}
+
+          {/* {JSON.stringify(arrayOfSubs)} */}
+          <div className='p-3'>
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
+          </div>
+
           <ProductUpdateForm
             values={values}
             handleSubmit={handleSubmit}
