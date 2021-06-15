@@ -12,6 +12,8 @@ const ProductUpdateForm = ({
   showSub,
   setValues,
   categories,
+  arrayOfSubs,
+  setArrayOfSubs,
 }) => {
   const {
     title,
@@ -114,7 +116,7 @@ const ProductUpdateForm = ({
 
       <div className='form-group'>
         <label>Категория товара</label>
-        {/* {JSON.stringify(values)} */}
+
         <select
           name='category'
           className='form-control'
@@ -129,25 +131,25 @@ const ProductUpdateForm = ({
             ))}
         </select>
       </div>
-      {showSub && (
-        <div>
-          <label>Подгатегории</label>
-          <Select
-            mode='multiple'
-            allowclear='true'
-            style={{ width: '100%' }}
-            placeholder='Пожайлуста выберите'
-            value={subs}
-            onChange={(value) => setValues({ ...values, subs: value })}>
-            {subOptions.length &&
-              subOptions.map((i) => (
-                <Option value={i._id} key={i._id}>
-                  {i.name}
-                </Option>
-              ))}
-          </Select>
-        </div>
-      )}
+
+      <div>
+        <label>Подгатегории</label>
+        {/* {JSON.stringify(arrayOfSubIds)} */}
+        <Select
+          mode='multiple'
+          allowclear='true'
+          style={{ width: '100%' }}
+          placeholder='Пожайлуста выберите'
+          value={arrayOfSubs}
+          onChange={(value) => setArrayOfSubs(value)}>
+          {subOptions.length &&
+            subOptions.map((i) => (
+              <Option value={i._id} key={i._id}>
+                {i.name}
+              </Option>
+            ))}
+        </Select>
+      </div>
 
       <button className='btn btn-outline-info'>Сохранить</button>
       {/* {categories && categories.length} */}

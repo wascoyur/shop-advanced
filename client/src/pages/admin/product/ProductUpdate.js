@@ -29,6 +29,7 @@ const ProductUpdate = ({ match }) => {
   const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [arrayOfSubs, setArrayOfSubs] = useState([]);
   const { id } = match.params;
   // console.log(id);
   useEffect(() => {
@@ -41,15 +42,23 @@ const ProductUpdate = ({ match }) => {
       .then((product) => {
         // console.log('product', product.data);
         setValues({ ...values, ...product.data });
+        getCategorySubs(product.data.category._id).then((res) => {
+          setSubOptions(res.data);
+        });
+        let arr = [];
+        product.data.subs.map((s) => {
+          arr.push(s._id);
+        });
+        console.log('arr', arr);
+
+        setArrayOfSubs((prev) => arr);
       })
       .catch((err) => console.log('err', err));
   };
 
   const loadCategories = () => {
     getCategories().then((item) => {
-      console.log('item', item.data);
       setCategories(item.data);
-      console.log('categories', categories);
     });
   };
 
@@ -88,6 +97,8 @@ const ProductUpdate = ({ match }) => {
             handleCategoryChange={handleCategoryChange}
             categories={categories}
             subOptions={subOptions}
+            arrayOfSubs={arrayOfSubs}
+            setArrayOfSubs={setArrayOfSubs}
           />
         </Col>
       </div>
