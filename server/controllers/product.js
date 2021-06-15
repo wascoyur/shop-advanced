@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 const slugify = require('slugify');
-const { populate } = require('../models/product');
+const { populate, findOneAndUpdate } = require('../models/product');
 
 exports.create = async (req, res) => {
   try {
@@ -11,6 +11,22 @@ exports.create = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });
+  }
+};
+
+exports.update = async (req, res) => {
+  try {
+    // console.log(req.body);
+    // if (req.body.slug) {
+    //   req.body.slug = slugify(req.body.title);
+    // }
+    const update = await findOneAndUpdate({ _id: req.params.slug }, req.body, {
+      new: true,
+    }).exec();
+    res.json(update);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send('Ошибка обновления товара');
   }
 };
 
