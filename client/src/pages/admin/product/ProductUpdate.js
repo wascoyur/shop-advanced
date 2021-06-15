@@ -1,13 +1,14 @@
+import { LoadingOutlined } from '@ant-design/icons';
+import { Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import AdminNav from '../../../components/nav/AdminNav';
-import { Col } from 'antd';
-import { useParams } from 'react-router';
-import { getProduct } from '../../../functions/product';
-import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
-import { getCategories, getCategorySubs } from '../../../functions/category';
 import FileUpload from '../../../components/forms/FileUpload';
-import { LoadingOutlined } from '@ant-design/icons';
+import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
+import AdminNav from '../../../components/nav/AdminNav';
+import { getCategories, getCategorySubs } from '../../../functions/category';
+import { getProduct } from '../../../functions/product';
+import { updateProduct } from '../../../functions/product';
+import { toast } from 'react-toastify';
 
 const initialState = {
   title: '',
@@ -52,7 +53,7 @@ const ProductUpdate = ({ match }) => {
         product.data.subs.map((s) => {
           arr.push(s._id);
         });
-        console.log('arr', arr);
+        // console.log('arr', arr);
 
         setArrayOfSubs((prev) => arr);
       })
@@ -67,6 +68,18 @@ const ProductUpdate = ({ match }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    values.subs = arrayOfSubs;
+    values.category = selectedCategory ? selectedCategory : values.category;
+    updateProduct(id, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        toast.success(`${res.data.title} обновлен`);
+      })
+      .catch((err) => {
+        console.log('err', err);
+        toast.error(err.response.data.err);
+      });
   };
 
   const handleChange = (e) => {

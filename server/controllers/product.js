@@ -16,17 +16,21 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    // console.log(req.body);
+    console.log('update', req.params._id);
     // if (req.body.slug) {
     //   req.body.slug = slugify(req.body.title);
     // }
-    const update = await findOneAndUpdate({ _id: req.params.slug }, req.body, {
-      new: true,
-    }).exec();
+    const update = await Product.findOneAndUpdate(
+      { _id: req.params.slug },
+      req.body,
+      {
+        new: true,
+      },
+    ).exec();
     res.json(update);
   } catch (error) {
     console.log(error);
-    res.status(400).send('Ошибка обновления товара');
+    res.status(400).send({ error: error.message });
   }
 };
 

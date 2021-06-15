@@ -136,7 +136,7 @@ const ProductUpdateForm = ({
 
       <div>
         <label>Подгатегории</label>
-        {JSON.stringify(arrayOfSubs)}
+        {/* {JSON.stringify(values)} */}
         <Select
           mode='multiple'
           allowclear='true'
