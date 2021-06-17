@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { Row } from 'antd';
 
@@ -8,31 +8,39 @@ const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
   return (
-    <div>{product.title}</div>
-    // <Card
-    //   cover={
-    //     <img
-    //       className='p-1'
-    //       alt=''
-    //       src={images[0].url}
-    //       style={{ hight: '150px', objectFit: 'cover' }}
-    //     />
-    //   }
-    //   actions={[
-    //     <DeleteOutlined
-    //       key='delete'
-    //       className='text-warning'
-    //       onClick={() => {}}
-    //     />,
-    //     <Link to={`/admin/product/${_id}`}>
-    //       <EditOutlined key='edit' className='text-danger' />
-    //     </Link>,
-    //   ]}>
-    //   <Meta
-    //     title={title}
-    //     description={`${description && description.substring(0, 10)}...`}
-    //   />
-    // </Card>
+    // <div>{product.title}</div>
+    <Card
+      cover={
+        <img
+          className='p-1'
+          alt=''
+          src={product.images[0].url}
+          style={{ hight: '150px', objectFit: 'cover' }}
+        />
+      }
+      actions={[
+        <>
+          <ShoppingCartOutlined
+            key='delete'
+            /* className='text-warning' */
+            onClick={() => {}}
+          />
+          <br />
+          Положить в корзину
+        </>,
+        <Link to={`/product/${product._id}`}>
+          <EyeOutlined key='edit' /*  className='text-danger' */ />
+          <br />
+          Подробнее..
+        </Link>,
+      ]}>
+      <Meta
+        title={product.title}
+        description={`${
+          product.description && product.description.substring(0, 10)
+        }...`}
+      />
+    </Card>
   );
 };
 
