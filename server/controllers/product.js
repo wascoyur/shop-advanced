@@ -75,15 +75,16 @@ exports.read = async (req, res) => {
 };
 
 exports.list = async (req, res) => {
+  console.log('req.body', req.body);
   try {
-    const{sort, order, limit}=req.body
+    const { sort, order, limit } = req.body;
     const products = await Product.find({})
       .populate('category')
       .populate('subs')
-      // .sort([sort, order])
-      // .limit(limit)
+      .sort([[sort, order]])
+      .limit(limit)
       .exec();
-    // console.log('slug: req.body', req.body, 'one', products);
+
     res.json(products);
   } catch (error) {
     console.log('error', error);
