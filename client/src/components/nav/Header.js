@@ -55,24 +55,24 @@ const Header = () => {
       )}
 
       {user && (
-        <SubMenu
+        <SubMenu key='submenu'
           icon={<SettingOutlined />}
           title={user.email && user.email.split('@')[0]}
           className='float-right'>
           {user && user.role === 'subscriber' ? (
-            <Item>
+            <Item key='1'>
               <Link to='/user/history'>Панель управления</Link>
             </Item>
           ) : null}
           {user && user.role === 'admin' ? (
-            <Item>
+            <Item key='2'>
               <Link to='/admin/dashboard'>
                 Панель управления администратора
               </Link>
             </Item>
           ) : null}
 
-          <Item icon={<LogoutOutlined />} onClick={logout}>
+          <Item icon={<LogoutOutlined />} onClick={logout} key='3'>
             Выход
           </Item>
         </SubMenu>

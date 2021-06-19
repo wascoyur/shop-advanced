@@ -13,5 +13,6 @@
   "editor.autoClosingBrackets": "always",
   "editor.codeActionsOnSave": null,
   "debug.allowBreakpointsEverywhere": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "npm.enableRunFromFolder": true,
 }
