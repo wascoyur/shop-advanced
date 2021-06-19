@@ -46,6 +46,13 @@ exports.listAll = async (req, res) => {
   } catch (error) {}
 };
 
+exports.productsCount = async (req, res) => {
+  try {
+    let total = await Product.estimatedDocumentCount().exec();
+    res.json(total);
+  } catch (error) {}
+};
+
 exports.remove = async (req, res) => {
   try {
     const deleted = await Product.findOneAndRemove({
