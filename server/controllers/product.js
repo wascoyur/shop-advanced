@@ -75,7 +75,7 @@ exports.read = async (req, res) => {
 };
 
 exports.list = async (req, res) => {
-  console.log('req.body', req.body);
+  // console.log('req.body', req.body);
   try {
     const { sort, order, limit } = req.body;
     const products = await Product.find({})

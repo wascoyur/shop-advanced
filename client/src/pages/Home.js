@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { getProducts } from '../functions/product';
-import ProductCard from '../components/cards/ProductCard';
+import React from 'react';
 import Jumbotron from '../components/cards/Jumbotron';
+import BestSellers from '../components/home/BestSellers';
 import NewArrivals from '../components/home/NewArrivals';
 
 const Home = () => {
@@ -15,8 +14,12 @@ const Home = () => {
       <div className='text-center p-3 mb-5 display-3 jumbotron'>Новинки!!!</div>
 
       <NewArrivals />
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <div className='text-center p-3 mb-5 display-3 jumbotron'>
+        Лидеры продаж!!!
+      </div>
+      <BestSellers />
     </div>
   );
 };

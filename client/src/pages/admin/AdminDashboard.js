@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { Col } from 'antd';
+import React from 'react';
 import AdminNav from '../../components/nav/AdminNav';
-import { Col, Row } from 'antd';
 
 const AdminDashboard = () => {
   return (

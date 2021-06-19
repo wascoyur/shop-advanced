@@ -47,7 +47,7 @@ export const getProduct = async (slug) => {
 };
 
 export const getProducts = async (sort, order, limit) => {
-  console.log('getProducts', sort, order, limit);
+  // console.log('getProducts', sort, order, limit);
 
   return await axios.post(`${process.env.REACT_APP_API}/products`, {
     sort,
