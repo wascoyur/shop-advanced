@@ -73,3 +73,20 @@ exports.read = async (req, res) => {
     // return res.status(400).send('Ошибка удаления продукта');
   }
 };
+
+exports.list = async (req, res) => {
+  try {
+    const{sort, order, limit}=req.body
+    const products = await Product.find({})
+      .populate('category')
+      .populate('subs')
+      // .sort([sort, order])
+      // .limit(limit)
+      .exec();
+    // console.log('slug: req.body', req.body, 'one', products);
+    res.json(products);
+  } catch (error) {
+    console.log('error', error);
+    // return res.status(400).send('Ошибка удаления продукта');
+  }
+};
