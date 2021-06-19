@@ -1,8 +1,7 @@
-import React from 'react';
-import { Card } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row } from 'antd';
 
 const { Meta } = Card;
 

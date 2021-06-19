@@ -29,7 +29,6 @@ const ProductUpdate = ({ match }) => {
   const [values, setValues] = useState(initialState);
   const { user } = useSelector((state) => ({ ...state }));
   const [subOptions, setSubOptions] = useState([]);
-  const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [arrayOfSubs, setArrayOfSubs] = useState([]);
@@ -39,7 +38,7 @@ const ProductUpdate = ({ match }) => {
   useEffect(() => {
     loadProduct();
     loadCategories();
-  }, []);
+  }, );
 
   const loadProduct = () => {
     getProduct(id)

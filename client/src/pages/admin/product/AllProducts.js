@@ -1,11 +1,10 @@
+import { Row } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { getProductsByCount } from '../../../functions/product';
-import { Row, Col } from 'antd';
-import AdminProductCard from '../../../components/cards/AdminProductCard';
-import AdminNav from '../../../components/nav/AdminNav';
-import { removeProduct } from '../../../functions/product';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import AdminProductCard from '../../../components/cards/AdminProductCard';
+import AdminNav from '../../../components/nav/AdminNav';
+import { getProductsByCount, removeProduct } from '../../../functions/product';
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);

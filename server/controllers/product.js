@@ -83,13 +83,17 @@ exports.read = async (req, res) => {
 
 exports.list = async (req, res) => {
   // console.log('req.body', req.body);
+
   try {
-    const { sort, order, limit } = req.body;
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 3;
     const products = await Product.find({})
+      .skip((currentPage - 1) * perPage)
       .populate('category')
       .populate('subs')
       .sort([[sort, order]])
-      .limit(limit)
+      .limit(perPage)
       .exec();
 
     res.json(products);
