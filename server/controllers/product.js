@@ -82,7 +82,7 @@ exports.read = async (req, res) => {
 };
 
 exports.list = async (req, res) => {
-  // console.log('req.body', req.body);
+  console.table(req.body);
 
   try {
     const { sort, order, page } = req.body;
