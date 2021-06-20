@@ -38,7 +38,7 @@ const ProductUpdate = ({ match }) => {
   useEffect(() => {
     loadProduct();
     loadCategories();
-  }, );
+  },[] );
 
   const loadProduct = () => {
     getProduct(id)

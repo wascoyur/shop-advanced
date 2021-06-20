@@ -41,7 +41,7 @@ export const getProductsByCount = async (count) => {
 };
 
 export const getProduct = async (slug) => {
-  // console.log('getProduct');
+  console.log('getProduct',slug);
 
   return await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
 };
