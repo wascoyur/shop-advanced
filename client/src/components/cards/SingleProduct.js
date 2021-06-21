@@ -5,11 +5,12 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';
 import blank from '../../images/blank.png';
+import ProductListItem from './ProductListItem';
 
 const { Meta } = Card;
 
 const SingleProduct = ({ product }) => {
-  const { title, description, images, slug } = product;
+  const { title, description, images } = product;
 
   return (
     <Fragment>
@@ -31,6 +32,7 @@ const SingleProduct = ({ product }) => {
         )}
       </div>
       <div className='col-md-5'>
+        <h1 className='bg-info p-3'>{title}</h1>
         <Card
           actions={[
             <Fragment>
@@ -44,8 +46,7 @@ const SingleProduct = ({ product }) => {
               Добавить в мои желания
             </Link>,
           ]}>
-          <Meta title={title} description={description} />
-          <p>price/category/subs/shipping/brand/quantity avalible/sold </p>
+          <ProductListItem product={product}/>
         </Card>
       </div>
     </Fragment>
