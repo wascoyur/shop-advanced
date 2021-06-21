@@ -1,5 +1,5 @@
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Card } from 'antd';
+import { Card, Tabs } from 'antd';
 import React, { Fragment } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -8,6 +8,7 @@ import blank from '../../images/blank.png';
 import ProductListItem from './ProductListItem';
 
 const { Meta } = Card;
+const { TabPane } = Tabs;
 
 const SingleProduct = ({ product }) => {
   const { title, description, images } = product;
@@ -30,7 +31,17 @@ const SingleProduct = ({ product }) => {
               />
             }></Card>
         )}
+
+        <Tabs type='card' >
+          <TabPane tab='Описание' key='1'>
+            {description && description}
+          </TabPane>
+          <TabPane tab='Дополнительная информация о товаре' key='2'>
+            Позвоните нам для уточнения вопроса 8(800)254-45-45
+          </TabPane>
+        </Tabs>
       </div>
+
       <div className='col-md-5'>
         <h1 className='bg-info p-3'>{title}</h1>
         <Card
@@ -46,7 +57,7 @@ const SingleProduct = ({ product }) => {
               Добавить в мои желания
             </Link>,
           ]}>
-          <ProductListItem product={product}/>
+          <ProductListItem product={product} />
         </Card>
       </div>
     </Fragment>

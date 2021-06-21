@@ -20,7 +20,13 @@ const ProductPage = ({ match }) => {
       <div className='row pt-4'>
         <SingleProduct product={product} />{' '}
       </div>
-      <div className='row'>Похожие товары</div>
+      <div className='row p-4'>
+        <div className='col text-center pt-5 pb-5'>
+          <hr />
+          <h4>Похожие товары</h4>
+          <hr />
+        </div>
+      </div>
     </div>
   );
 };
