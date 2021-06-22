@@ -1,6 +1,7 @@
 const Product = require('../models/product');
 const slugify = require('slugify');
 const { populate, findOneAndUpdate } = require('../models/product');
+const user = require('../models/user');
 
 exports.create = async (req, res) => {
   try {
@@ -82,7 +83,7 @@ exports.read = async (req, res) => {
 };
 
 exports.list = async (req, res) => {
-  console.table(req.body);
+  // console.table(req.body);
 
   try {
     const { sort, order, page } = req.body;
@@ -97,6 +98,46 @@ exports.list = async (req, res) => {
       .exec();
 
     res.json(products);
+  } catch (error) {
+    console.log('error', error);
+    // return res.status(400).send('Ошибка удаления продукта');
+  }
+};
+
+exports.productStar = async (req, res) => {
+  console.log('req.body', req.body);
+  console.log('req.params', req.params);
+
+  try {
+    const { slug } = req.body;
+    const product = await Product.findById(req.params.productId).exec();
+    const user = await user.findOne({ email: req.user.email }).exec();
+    const { star } = req.body;
+
+    let existingRaitingObject = product.raitings.find(
+      (el) => el.posted.toString() === user._id.toString(),
+    );
+    if (existingRaitingObject === undefined) {
+      let raitingAdded = await Product.findByIdAndUpdate(
+        product._id,
+        {
+          $push: { raitins: { star: star, postedBy: user._id } },
+        },
+        { new: true },
+      ).exec();
+      console.log('raitingAdded', raitingAdded);
+      res.json(raitingAdded);
+    } else {
+      const raitingUpdated = await Product.updateOne(
+        {
+          raitings: { $elementMatch: existingRaitingObject },
+        },
+        { $set: { 'raitings.$.star': star } },
+        { new: true },
+      ).exec();
+      console.log('raitingUpdated', raitingUpdated);
+      re.json(raitingUpdated)
+    }
   } catch (error) {
     console.log('error', error);
     // return res.status(400).send('Ошибка удаления продукта');
