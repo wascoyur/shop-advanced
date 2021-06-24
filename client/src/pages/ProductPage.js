@@ -16,7 +16,6 @@ const ProductPage = ({ match }) => {
 
   return (
     <div className='container-fluid'>
-      Product page
       <div className='row pt-4'>
         <SingleProduct product={product} />{' '}
       </div>
