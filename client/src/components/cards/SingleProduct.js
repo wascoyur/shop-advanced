@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import blank from '../../images/blank.png';
 import ProductListItem from './ProductListItem';
 import StarRatings from 'react-star-ratings';
+import RatingModal from '../modal/RatingModal';
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -49,16 +50,7 @@ const SingleProduct = ({ product }) => {
 
       <div className='col-md-5'>
         <h1 className='bg-info p-3'>{title}</h1>
-        <StarRatings
-          name={_id}
-          starDimension={'1.5rem'}
-          changeRating={(e) => {
-            changeRating([e, _id]);
-          }}
-          rating={rating[0]}
-          numberOfStars={5}
-          starRatedColor={'yellow'}
-        />
+
         <Card
           actions={[
             <Fragment>
@@ -71,6 +63,19 @@ const SingleProduct = ({ product }) => {
               <br />
               Добавить в мои желания
             </Link>,
+            <RatingModal>
+              <StarRatings
+                name={_id}
+                starDimension={'1.5rem'}
+                changeRating={(e) => {
+                  changeRating([e, _id]);
+                }}
+                rating={rating[0]}
+                numberOfStars={5}
+                starRatedColor={'yellow'}
+                isSelectable='true'
+              />
+            </RatingModal>,
           ]}>
           <ProductListItem product={product} />
         </Card>
