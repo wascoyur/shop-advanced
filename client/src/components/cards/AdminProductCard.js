@@ -1,10 +1,8 @@
-import React,{Fragment} from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Card } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { Carousel } from 'react-responsive-carousel';
 import blank from '../../images/blank.png';
-import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 

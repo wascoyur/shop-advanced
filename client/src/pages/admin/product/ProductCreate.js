@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import FileUpload from '../../../components/forms/FileUpload';
@@ -30,16 +30,18 @@ const ProductCreate = () => {
   const [subOptions, setSubOptions] = useState([]);
   const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    loadCategories();
-  }, []);
-
-  const loadCategories = () => {
+  
+  const loadCategories = useCallback(() => {
     getCategories().then((item) =>
       setValues({ ...values, categories: item.data }),
     );
-  };
+  },[values])
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

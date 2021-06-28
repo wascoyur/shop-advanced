@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getProducts, getProductsCount } from '../../functions/product';
 import ProductCard from '../cards/ProductCard';
 import LoadingCard from '../cards/LoadingCard';
@@ -10,21 +10,22 @@ const BestSellers = () => {
   const [page, setPage] = useState(1);
   const [productsCount, setProductsCount] = useState(0);
 
-  useEffect(() => {
-    loadAllProducts();
-  }, [page]);
-
-  useEffect(() => {
-    getProductsCount().then((res) => setProductsCount(res.data));
-  }, []);
-
-  const loadAllProducts = () => {
+  const loadAllProducts = useCallback(() => {
     setLoading(true);
+    
     getProducts('sold', 'desc', page).then((res) => {
       setProducts(res.data);
       setLoading(false);
     });
-  };
+  }, [page]);
+
+  useEffect(() => {
+    loadAllProducts();
+  }, [loadAllProducts]);
+
+  useEffect(() => {
+    getProductsCount().then((res) => setProductsCount(res.data));
+  }, []);
 
   return (
     <div>
@@ -49,7 +50,7 @@ const BestSellers = () => {
             onChange={(value) => setPage(value)}
           />
         </nav>
-      </div> 
+      </div>
     </div>
   );
 };

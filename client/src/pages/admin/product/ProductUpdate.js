@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Col } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import FileUpload from '../../../components/forms/FileUpload';
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm';
@@ -35,29 +35,28 @@ const ProductUpdate = ({ match }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const { id } = match.params;
   // console.log(id);
-  useEffect(() => {
-    loadProduct();
-    loadCategories();
-  },[] );
 
-  const loadProduct = () => {
+  const loadProduct = useCallback(() => {
     getProduct(id)
       .then((product) => {
         // console.log('product', product.data);
         setValues({ ...values, ...product.data });
+
         getCategorySubs(product.data.category._id).then((res) => {
           setSubOptions(res.data);
         });
-        let arr = [];
-        product.data.subs.map((s) => {
-          arr.push(s._id);
-        });
-        // console.log('arr', arr);
 
+        let arr = [];
+        product.data.subs.map((s) => arr.push(s._id));
         setArrayOfSubs((prev) => arr);
       })
       .catch((err) => console.log('err', err));
-  };
+  }, [id]);
+
+  useEffect(() => {
+    loadProduct();
+    loadCategories();
+  }, [loadProduct]);
 
   const loadCategories = () => {
     getCategories().then((item) => {

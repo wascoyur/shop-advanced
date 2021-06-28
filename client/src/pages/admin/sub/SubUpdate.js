@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
@@ -14,19 +14,22 @@ const SubUpdate = ({ match, history }) => {
   // const [category, setCategory] = useState('');
   const [parent, setParent] = useState([]);
 
+  const loadCategories = useCallback(() =>
+    getCategories().then((c) => setCategories(c.data)),[])
+
+  const loadSub = useCallback(
+    () =>
+      getSub(match.params.slug).then((item) => {
+        setName(item.data.name);
+        setParent(item.data.parent);
+      }),
+    [match.params.slug],
+  );
+  
   useEffect(() => {
     loadCategories();
     loadSub();
-  }, []);
-
-  const loadCategories = () =>
-    getCategories().then((c) => setCategories(c.data));
-
-  const loadSub = () =>
-    getSub(match.params.slug).then((item) => {
-      setName(item.data.name);
-      setParent(item.data.parent);
-    });
+  }, [loadSub,loadCategories]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

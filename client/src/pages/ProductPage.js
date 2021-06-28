@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getProduct } from '../functions/product';
 import SingleProduct from '../components/cards/SingleProduct';
 
@@ -6,13 +6,13 @@ const ProductPage = ({ match }) => {
   const [product, setProduct] = useState({});
   const { slug } = match.params;
 
-  useEffect(() => {
-    loadSingleProduct();
+  const loadSingleProduct = useCallback(() => {
+    getProduct(slug).then((res) => setProduct(res.data));
   }, [slug]);
 
-  const loadSingleProduct = () => {
-    getProduct(slug).then((res) => setProduct(res.data));
-  };
+  useEffect(() => {
+    loadSingleProduct();
+  }, [slug, loadSingleProduct]);
 
   return (
     <div className='container-fluid'>

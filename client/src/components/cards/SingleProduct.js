@@ -9,7 +9,6 @@ import ProductListItem from './ProductListItem';
 import StarRatings from 'react-star-ratings';
 import RatingModal from '../modal/RatingModal';
 
-const { Meta } = Card;
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product }) => {
@@ -22,7 +21,8 @@ const SingleProduct = ({ product }) => {
       <div className='col-md-7'>
         {images && images.length ? (
           <Carousel showArrows={true} autoPlay={true} infiniteLoop={true}>
-            {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
+            {images &&
+              images.map((i) => <img src={i.url} key={i.public_id} alt='' />)}
           </Carousel>
         ) : (
           <Fragment>
