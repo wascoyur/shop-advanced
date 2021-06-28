@@ -35,7 +35,7 @@ const ProductCreate = () => {
     getCategories().then((item) =>
       setValues({ ...values, categories: item.data }),
     );
-  },[values])
+  },[])
 
   useEffect(() => {
     loadCategories();

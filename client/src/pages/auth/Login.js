@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createOrUpdateUser } from '../../functions/authcreateUpdateUser';
 
-
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,17 +15,27 @@ const Login = ({ history }) => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history.push('/');
+    if (history.location.state) {
+      return;
+    } else {
+      if (user && user.token) history.push('/');
+    }
   }, [user, history]);
 
   let dispatch = useDispatch();
+
   const roleBaseRedirect = (res) => {
-    if (res.data.role === 'admin') {
-      history.push('/admin/dashboard')
+    console.log('roleBaseRedirect history.location.state', history.location);
+    if (history.location.state) {
+      history.push(history.location.state.from);
     } else {
-      history.push('/user/history')
+      if (res.data.role === 'admin') {
+        history.push('/admin/dashboard');
+      } else {
+        history.push('/user/history');
+      }
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,13 +43,13 @@ const Login = ({ history }) => {
     // console.table(email, password);
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-      
+
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-      
+
       createOrUpdateUser(idTokenResult.token)
         .then((res) => {
-        // console.log(res);  
+          // console.log(res);
           dispatch({
             type: 'LOGGED_IN_USER',
             payload: {
@@ -48,14 +57,13 @@ const Login = ({ history }) => {
               email: res.data.email,
               token: idTokenResult.token,
               role: res.data.role,
-              _id: res.data._id
+              _id: res.data._id,
             },
           });
-          roleBaseRedirect(res)
+          roleBaseRedirect(res);
         })
         .catch();
       // history.push('/');
-      
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -126,8 +134,7 @@ const Login = ({ history }) => {
         shape='round'
         icon={<MailOutlined />}
         size='large'
-        disabled={!email || password.length < 6}
-      >
+        disabled={!email || password.length < 6}>
         Вход с логином/паролем
       </Button>
     </form>
@@ -151,8 +158,7 @@ const Login = ({ history }) => {
             block
             shape='round'
             icon={<GoogleOutlined />}
-            size='large'
-          >
+            size='large'>
             Войти с помощью Google
           </Button>
 

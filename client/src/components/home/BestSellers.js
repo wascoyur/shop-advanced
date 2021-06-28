@@ -12,7 +12,7 @@ const BestSellers = () => {
 
   const loadAllProducts = useCallback(() => {
     setLoading(true);
-    
+
     getProducts('sold', 'desc', page).then((res) => {
       setProducts(res.data);
       setLoading(false);
