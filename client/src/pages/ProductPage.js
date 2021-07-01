@@ -5,6 +5,7 @@ import SingleProduct from '../components/cards/SingleProduct';
 const ProductPage = ({ match }) => {
   const [product, setProduct] = useState({});
   const { slug } = match.params;
+  const [star, setStar]=useState(0)
 
   const loadSingleProduct = useCallback(() => {
     getProduct(slug).then((res) => setProduct(res.data));
@@ -16,13 +17,13 @@ const ProductPage = ({ match }) => {
 
   const onStarClick = (newRating, name) => {
     console.table('newRating, name', newRating, name);
-    
+    setStar(newRating)
   }
 
   return (
     <div className='container-fluid'>
       <div className='row pt-4'>
-        <SingleProduct product={product} onStarClick={onStarClick}/>{' '}
+        <SingleProduct product={product} onStarClick={onStarClick} star={star}/>{' '}
       </div>
       <div className='row p-4'>
         <div className='col text-center pt-5 pb-5'>

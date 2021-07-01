@@ -11,7 +11,7 @@ import RatingModal from '../modal/RatingModal';
 
 const { TabPane } = Tabs;
 
-const SingleProduct = ({ product, onStarClick }) => {
+const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, description, images, _id } = product;
 
   const [rating, changeRating] = useState([]);
@@ -67,10 +67,8 @@ const SingleProduct = ({ product, onStarClick }) => {
               <StarRatings
                 name={_id}
                 starDimension={'1.5rem'}
-                changeRating={(e) => {
-                  onStarClick([e, _id]);
-                }}
-                rating={rating[0]}
+                changeRating={onStarClick}
+                rating={star}
                 numberOfStars={5}
                 starRatedColor={'yellow'}
                 isSelectable='true'

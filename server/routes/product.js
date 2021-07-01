@@ -27,4 +27,5 @@ router.get('/products/total', productsCount);
 router.get('/products/:count', listAll);
 router.put('/product/star/:id',authCheck,productStar)
 
+
 module.exports = router;
