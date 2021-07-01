@@ -14,10 +14,15 @@ const ProductPage = ({ match }) => {
     loadSingleProduct();
   }, [slug, loadSingleProduct]);
 
+  const onStarClick = (newRating, name) => {
+    console.table('newRating, name', newRating, name);
+    
+  }
+
   return (
     <div className='container-fluid'>
       <div className='row pt-4'>
-        <SingleProduct product={product} />{' '}
+        <SingleProduct product={product} onStarClick={onStarClick}/>{' '}
       </div>
       <div className='row p-4'>
         <div className='col text-center pt-5 pb-5'>

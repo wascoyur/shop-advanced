@@ -18,7 +18,7 @@ const RatingModal = ({ children }) => {
     } else {
       // console.log('params.slug', params.slug);
       
-      history.push({
+      history.push({ 
         pathname: '/login',
         state: { from: `/product/${params.slug}` },
       });

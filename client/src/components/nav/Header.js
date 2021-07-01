@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Affix } from 'antd';
 
 const { SubMenu, Item } = Menu;
 
@@ -37,47 +38,53 @@ const Header = () => {
   };
 
   return (
-    <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
-      <Item key='home' icon={<AppstoreOutlined />}>
-        <Link to='/'>Домой</Link>
-      </Item>
-
-      {!user && (
-        <Item key='register' icon={<UserAddOutlined />} className='float-right'>
-          <Link to='/register'>Регистрация</Link>
+    <Affix>
+      <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
+        <Item key='home' icon={<AppstoreOutlined />}>
+          <Link to='/'>Домой</Link>
         </Item>
-      )}
 
-      {!user && (
-        <Item key='login' icon={<UserOutlined />} className='float-right'>
-          <Link to='/login'>Вход</Link>
-        </Item>
-      )}
-
-      {user && (
-        <SubMenu key='submenu'
-          icon={<SettingOutlined />}
-          title={user.email && user.email.split('@')[0]}
-          className='float-right'>
-          {user && user.role === 'subscriber' ? (
-            <Item key='1'>
-              <Link to='/user/history'>Панель управления</Link>
-            </Item>
-          ) : null}
-          {user && user.role === 'admin' ? (
-            <Item key='2'>
-              <Link to='/admin/dashboard'>
-                Панель управления администратора
-              </Link>
-            </Item>
-          ) : null}
-
-          <Item icon={<LogoutOutlined />} onClick={logout} key='3'>
-            Выход
+        {!user && (
+          <Item
+            key='register'
+            icon={<UserAddOutlined />}
+            className='float-right'>
+            <Link to='/register'>Регистрация</Link>
           </Item>
-        </SubMenu>
-      )}
-    </Menu>
+        )}
+
+        {!user && (
+          <Item key='login' icon={<UserOutlined />} className='float-right'>
+            <Link to='/login'>Вход</Link>
+          </Item>
+        )}
+
+        {user && (
+          <SubMenu
+            key='submenu'
+            icon={<SettingOutlined />}
+            title={user.email && user.email.split('@')[0]}
+            className='float-right'>
+            {user && user.role === 'subscriber' ? (
+              <Item key='1'>
+                <Link to='/user/history'>Панель управления</Link>
+              </Item>
+            ) : null}
+            {user && user.role === 'admin' ? (
+              <Item key='2'>
+                <Link to='/admin/dashboard'>
+                  Панель управления администратора
+                </Link>
+              </Item>
+            ) : null}
+
+            <Item icon={<LogoutOutlined />} onClick={logout} key='3'>
+              Выход
+            </Item>
+          </SubMenu>
+        )}
+      </Menu>
+    </Affix>
   );
 };
 
