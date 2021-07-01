@@ -4,17 +4,15 @@ import React, { Fragment, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';
-import blank from '../../images/blank.png';
-import ProductListItem from './ProductListItem';
 import StarRatings from 'react-star-ratings';
+import blank from '../../images/blank.png';
 import RatingModal from '../modal/RatingModal';
+import ProductListItem from './ProductListItem';
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, description, images, _id } = product;
-
-  const [rating, changeRating] = useState([]);
 
   return (
     <Fragment>

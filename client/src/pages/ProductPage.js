@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { getProduct } from '../functions/product';
+import { getProduct, setProductStar } from '../functions/product';
 import SingleProduct from '../components/cards/SingleProduct';
+import { useSelector } from 'react-redux';
 
 const ProductPage = ({ match }) => {
   const [product, setProduct] = useState({});
   const { slug } = match.params;
-  const [star, setStar]=useState(0)
+  const [star, setStar] = useState(0);
+  const { user } = useSelector((state) => ({ ...state }));
 
   const loadSingleProduct = useCallback(() => {
     getProduct(slug).then((res) => setProduct(res.data));
@@ -16,14 +18,24 @@ const ProductPage = ({ match }) => {
   }, [slug, loadSingleProduct]);
 
   const onStarClick = (newRating, name) => {
-    console.table('newRating, name', newRating, name);
-    setStar(newRating)
-  }
+    console.log('newRating, name', newRating, name);
+    setStar(newRating);
+    
+    setProductStar(name, star, user.token).
+      then((res) => {
+      console.log('res',res);
+      loadSingleProduct()
+    });
+  };
 
   return (
     <div className='container-fluid'>
       <div className='row pt-4'>
-        <SingleProduct product={product} onStarClick={onStarClick} star={star}/>{' '}
+        <SingleProduct
+          product={product}
+          onStarClick={onStarClick}
+          star={star}
+        />{' '}
       </div>
       <div className='row p-4'>
         <div className='col text-center pt-5 pb-5'>
