@@ -1,10 +1,11 @@
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Tabs } from 'antd';
-import React, { Fragment,  } from 'react';
+import React, { Fragment } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
+import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
 import RatingModal from '../modal/RatingModal';
 import ProductListItem from './ProductListItem';
@@ -48,7 +49,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 
       <div className='col-md-5'>
         <h1 className='bg-info p-3'>{title}</h1>
-
+        {
+          /* product && product.rating && product.rating >0 ?  */ showAverege(
+            product,
+          ) /* :('No rating') */
+        }
         <Card
           actions={[
             <Fragment>

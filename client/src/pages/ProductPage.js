@@ -26,7 +26,7 @@ const ProductPage = ({ match }) => {
       
       existingRaitingObject && setStar(existingRaitingObject.star);
     }
-  },[product.raitings]);
+  },[product.raitings,user]);
 
   const onStarClick = (newRating, name) => {
     // console.log('newRating, name', newRating, name);
