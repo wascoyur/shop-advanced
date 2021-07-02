@@ -114,14 +114,14 @@ exports.productStar = async (req, res) => {
     const { star } = req.body;
 
     let existingRaitingObject = product.raitings.find(
-      (el) => el.posted.toString() === user._id.toString(),
+      (el) => el.postedBy.toString() === user._id.toString(),
     );
 
-    // console.log(' existingRaitingObject', existingRaitingObject);
+    console.log(' existingRaitingObject', existingRaitingObject);
 
     if (existingRaitingObject === undefined) {
 
-      console.log('-------product', product);
+      // console.log('-------product', product);
 
       let raitingAdded = await Product.findByIdAndUpdate(
         product._id,
@@ -135,13 +135,15 @@ exports.productStar = async (req, res) => {
 
       res.json(raitingAdded);
     } else {
+
       const raitingUpdated = await Product.updateOne(
         {
-          raitings: { $elementMatch: existingRaitingObject },
+          raitings: { $elemMatch: existingRaitingObject },
         },
         { $set: { 'raitings.$.star': star } },
         { new: true },
       ).exec();
+
       console.log('raitingUpdated', raitingUpdated);
       res.json(raitingUpdated);
     }

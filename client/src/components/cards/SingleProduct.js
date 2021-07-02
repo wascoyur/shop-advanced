@@ -1,6 +1,6 @@
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Tabs } from 'antd';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment,  } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';

@@ -17,14 +17,24 @@ const ProductPage = ({ match }) => {
     loadSingleProduct();
   }, [slug, loadSingleProduct]);
 
+  useEffect(() => {
+    if (product.raitings && user) {
+      
+      let existingRaitingObject = product.raitings.find(
+        (i) => i.postedBy.toString() === user._id.toString(),
+      );
+      
+      existingRaitingObject && setStar(existingRaitingObject.star);
+    }
+  },[product.raitings]);
+
   const onStarClick = (newRating, name) => {
-    console.log('newRating, name', newRating, name);
+    // console.log('newRating, name', newRating, name);
     setStar(newRating);
-    
-    setProductStar(name, star, user.token).
-      then((res) => {
-      console.log('res',res);
-      loadSingleProduct()
+
+    setProductStar(name, newRating, user.token).then((res) => {
+      // console.log('res', res);
+      loadSingleProduct();
     });
   };
 
