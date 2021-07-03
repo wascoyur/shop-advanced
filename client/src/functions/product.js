@@ -61,10 +61,17 @@ export const getProductsCount = async () => {
 };
 
 export const setProductStar = async (productId, star, authtoken) => {
-  
   return await axios.put(
     `${process.env.REACT_APP_API}/product/star/${productId}`,
     { star },
     { headers: { authtoken } },
+  );
+};
+
+export const getRelated = async (productId) => {
+
+// console.log('productId', productId);
+  return await axios.get(
+    `${process.env.REACT_APP_API}/product/related/${productId}`,
   );
 };

@@ -74,7 +74,7 @@ exports.read = async (req, res) => {
       .populate('category')
       .populate('subs')
       .exec();
-    console.log('slug: req.params.slug', req.params.slug, 'one', oneProduct);
+    // console.log('slug: req.params.slug', req.params.slug, 'one', oneProduct);
     res.json(oneProduct);
   } catch (error) {
     console.log('error', error);
@@ -106,7 +106,7 @@ exports.list = async (req, res) => {
 
 exports.productStar = async (req, res) => {
   // console.log('req.body', req.body);
-  // console.log('req.params', req.params.id);  
+  // console.log('req.params', req.params.id);
 
   try {
     const product = await Product.findOne({ _id: req.params.id }).exec();
@@ -117,10 +117,9 @@ exports.productStar = async (req, res) => {
       (el) => el.postedBy.toString() === user._id.toString(),
     );
 
-    console.log(' existingRaitingObject', existingRaitingObject);
+    // console.log(' existingRaitingObject', existingRaitingObject);
 
     if (existingRaitingObject === undefined) {
-
       // console.log('-------product', product);
 
       let raitingAdded = await Product.findByIdAndUpdate(
@@ -135,7 +134,6 @@ exports.productStar = async (req, res) => {
 
       res.json(raitingAdded);
     } else {
-
       const raitingUpdated = await Product.updateOne(
         {
           raitings: { $elemMatch: existingRaitingObject },
@@ -151,4 +149,19 @@ exports.productStar = async (req, res) => {
     console.log('error', error);
     // return res.status(400).send('Ошибка удаления продукта');
   }
+};
+
+exports.listRelated = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
+  const related = await Product.find({
+    _id: { $ne: product._id },
+    category: product.category,
+  })
+    .limit(3)
+    .populate('category')
+    .populate('subs')
+    .populate('postedBy')
+    .exec();
+  
+  res.json(related)
 };
