@@ -2,7 +2,6 @@ import React from 'react';
 import StarRating from 'react-star-ratings';
 
 export const showAverege = (p) => {
-
   if (p && p.raitings) {
     let ratingsArray = p && p.raitings;
     let total = [];
@@ -16,7 +15,13 @@ export const showAverege = (p) => {
     return (
       <div className='text-center pt-1 pb-3'>
         <span>
-          <StarRating rating={result} />
+          <StarRating
+            starDimension='20px'
+            starSpacing='2px'
+            starRatedColor='yellow'
+            rating={result}
+          />{' '}
+          ({p.raitings.length})
         </span>
       </div>
     );

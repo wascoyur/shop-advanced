@@ -3,6 +3,7 @@ import { Card } from 'antd';
 import React from 'react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
 
 const { Meta } = Card;
@@ -10,6 +11,11 @@ const { Meta } = Card;
 const ProductCard = ({ product }) => {
   return (
     <Fragment>
+      {
+          product && product.raitings && product.raitings.length >0 ?  showAverege(
+            product,
+          ) :( <div className='text-center pt-1 pb-3'>Нет оценок</div>)
+        }
       {product.images && product.images.length ? (
         <Card
           cover={
