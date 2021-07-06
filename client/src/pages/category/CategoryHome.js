@@ -13,7 +13,7 @@ const CategoryHome = ({ match }) => {
   useEffect(() => {
     setLoading(true);
     getCategory(match.params.slug).then((c) => {
-      console.log(JSON.stringify(c.data.products, null, 4));
+      // console.log(JSON.stringify(c.data.products, null, 4));
       setCategory(c.data.category);
       setProducts(c.data.products);
     });
