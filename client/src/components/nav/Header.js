@@ -12,6 +12,7 @@ import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Affix } from 'antd';
+import Search from '../forms/Search';
 
 const { SubMenu, Item } = Menu;
 
@@ -82,7 +83,8 @@ const Header = () => {
               Выход
             </Item>
           </SubMenu>
-        )}
+        )} 
+           <Search />
       </Menu>
     </Affix>
   );
