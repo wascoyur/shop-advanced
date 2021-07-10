@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +28,7 @@ import ProductUpdate from './pages/admin/product/ProductUpdate';
 import ProductPage from './pages/ProductPage';
 import CategoryHome from './pages/category/CategoryHome';
 import SubHome from './pages/subs/SubHome';
+import Shop from './pages/Shop';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <Fragment>
       <Header />
       <ToastContainer />
       <Switch>
@@ -89,9 +90,10 @@ const App = () => {
         <AdminRoute exact path='/admin/products' component={AllProducts} />
         <AdminRoute exact path='/admin/product/:id' component={ProductUpdate} />
         <Route exact path='/category/:slug' component={CategoryHome}/>
-        <Route exact path='/sub/:slug' component={SubHome}/>
+        <Route exact path='/sub/:slug' component={SubHome} />
+        <Route exact path='/shop' component={Shop}/>
       </Switch>
-    </div>
+    </Fragment>
   );
 };
 

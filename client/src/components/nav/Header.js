@@ -6,6 +6,7 @@ import {
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  ShopOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
@@ -40,9 +41,13 @@ const Header = () => {
 
   return (
     <Affix>
-      <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
+      <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal' style={{display:'inline'}}>
         <Item key='home' icon={<AppstoreOutlined />}>
           <Link to='/'>Домой</Link>
+        </Item>
+
+        <Item key='shop' icon={<ShopOutlined/>}>
+          <Link to='/shop'>Магазин</Link>
         </Item>
 
         {!user && (
@@ -83,8 +88,10 @@ const Header = () => {
               Выход
             </Item>
           </SubMenu>
-        )} 
-           <Search />
+        )}
+        <span className='float-right'>
+          <Search />
+        </span>
       </Menu>
     </Affix>
   );
