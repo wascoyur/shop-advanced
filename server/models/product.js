@@ -47,7 +47,7 @@ const productSchema = new mongoose.Schema(
     },
     shipping: {
       type: String,
-      enum: ['Да', 'Нет',''],
+      enum: ['Да', 'Нет', ''],
     },
     color: {
       type: String,
@@ -63,6 +63,14 @@ const productSchema = new mongoose.Schema(
         postedBy: { type: ObjectId, ref: 'User' },
       },
     ],
+    size: {
+      country: {
+        type: String,
+        enum: ['eu', 'ru', 'us', 'cn']
+      },
+      value:String
+    },
+    adminproperties:{}
   },
   { timestamps: true },
 );
