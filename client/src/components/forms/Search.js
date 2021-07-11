@@ -18,7 +18,7 @@ const Search = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('history', history);
+    // console.log('history', history);
     history.push(`/shop?${text}`);
   };
 

@@ -28,6 +28,6 @@ router.get('/products/total', productsCount);
 router.get('/products/:count', listAll);
 router.put('/product/star/:id', authCheck, productStar);
 router.get('/product/related/:productId', listRelated);
-router.post('/search/filterd',searchFilters)
+router.post('/search/filters',searchFilters)
 
 module.exports = router;

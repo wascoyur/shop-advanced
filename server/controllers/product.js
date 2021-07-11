@@ -172,15 +172,15 @@ const handleQuery = async (req, res, query) => {
     .populate('subs', '_id name')
     .populate('postedBy', '_id name')
     .exec();
-  
-  res.json(products)
+  // console.log('products', products);
+
+  res.json(products);
 };
 
 exports.searchFilters = async (req, res) => {
   const { query } = req.body;
   if (query) {
-    console.log('query', query);
-    await handleQuery(req, req, query);
-  } else {
+    // console.log('query', query);
+    await handleQuery(req, res, query);
   }
 };
