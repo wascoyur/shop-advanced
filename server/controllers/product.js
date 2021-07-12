@@ -204,3 +204,4 @@ exports.searchFilters = async (req, res) => {
     await handlePrice(req, res, price);
   }
 };
+ 

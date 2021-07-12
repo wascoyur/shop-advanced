@@ -41,12 +41,16 @@ const Header = () => {
 
   return (
     <Affix>
-      <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal' style={{display:'inline'}}>
+      <Menu
+        onClick={handleClick}
+        selectedKeys={[current]}
+        mode='horizontal'
+        className=' justify-content-between'>
         <Item key='home' icon={<AppstoreOutlined />}>
           <Link to='/'>Домой</Link>
         </Item>
 
-        <Item key='shop' icon={<ShopOutlined/>}>
+        <Item key='shop' icon={<ShopOutlined />}>
           <Link to='/shop'>Магазин</Link>
         </Item>
 
@@ -54,23 +58,27 @@ const Header = () => {
           <Item
             key='register'
             icon={<UserAddOutlined />}
-            className='float-right'>
+            /* className='float-right' */>
             <Link to='/register'>Регистрация</Link>
           </Item>
         )}
 
         {!user && (
-          <Item key='login' icon={<UserOutlined />} className='float-right'>
+          <Item key='login' icon={<UserOutlined />} /* className='float-right' */>
             <Link to='/login'>Вход</Link>
           </Item>
         )}
+
+        <Item key='4' /* className='float-right' */>
+          <Search />
+        </Item>
 
         {user && (
           <SubMenu
             key='submenu'
             icon={<SettingOutlined />}
             title={user.email && user.email.split('@')[0]}
-            className='float-right'>
+            /* className='float-right' */>
             {user && user.role === 'subscriber' ? (
               <Item key='1'>
                 <Link to='/user/history'>Панель управления</Link>
@@ -84,14 +92,11 @@ const Header = () => {
               </Item>
             ) : null}
 
-            <Item icon={<LogoutOutlined />} onClick={logout} key='3'>
+            <Item icon={<LogoutOutlined />} onClick={logout} key='3' className=''>
               Выход
             </Item>
           </SubMenu>
         )}
-        <Item key='4' className='float-right'>
-          <Search />
-        </Item>
       </Menu>
     </Affix>
   );

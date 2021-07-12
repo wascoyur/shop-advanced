@@ -11,11 +11,11 @@ const { Meta } = Card;
 const ProductCard = ({ product }) => {
   return (
     <Fragment>
-      {
-          product && product.raitings && product.raitings.length >0 ?  showAverege(
-            product,
-          ) :( <div className='text-center pt-1 pb-3'>Нет оценок</div>)
-        }
+      {product && product.raitings && product.raitings.length > 0 ? (
+        showAverege(product)
+      ) : (
+        <div className='text-center pt-1 pb-3'>Нет оценок</div>
+      )}
       {product.images && product.images.length ? (
         <Card
           cover={
@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
             </Link>,
           ]}>
           <Meta
-            title={product.title}
+            title={`${product.title} - ${product.price}р.`}
             description={`${
               product.description && product.description.substring(0, 10)
             }...`}
@@ -76,7 +76,7 @@ const ProductCard = ({ product }) => {
             </Link>,
           ]}>
           <Meta
-            title={product.title}
+            title={`${product.title} - цена: ${product.price}`}
             description={`${
               product.description && product.description.substring(0, 10)
             }...`}
