@@ -1,12 +1,14 @@
+import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import { Menu, Slider, Space } from 'antd';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
 import React, { useEffect, useState } from 'react';
-import {
-  getProductsByCount,
-  fetchProductsByFilter,
-} from '../functions/product';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../components/cards/ProductCard';
-import { Menu, Slider } from 'antd';
-import { DollarOutlined } from '@ant-design/icons';
+import { getCategories } from '../functions/category';
+import {
+  fetchProductsByFilter,
+  getProductsByCount,
+} from '../functions/product';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -18,9 +20,12 @@ const Shop = () => {
   const { SubMenu, ItemGroup } = Menu;
   const [ok, setOk] = useState(false);
   const dispatch = useDispatch();
+  const [categories, setCategories] = useState([]);
+  const [categoryIds, setCategoryIds] = useState([]);
 
   useEffect(() => {
     loadAllProducts();
+    getCategories().then((c) => setCategories(c.data));
   }, []);
 
   useEffect(() => {
@@ -34,7 +39,7 @@ const Shop = () => {
   useEffect(() => {
     // console.log('ok to req');
     fetchProducts({ price });
-  }, [ok]);
+  }, [ok, price]);
 
   const loadAllProducts = () => {
     setLoading(true);
@@ -55,12 +60,48 @@ const Shop = () => {
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     });
+    setCategoryIds([])
     setPrice(value);
     // console.log('price:',value);
 
     setTimeout(() => {
       setOk(!ok);
     }, 300);
+  };
+
+  const showCategories = () =>
+    categories.map((c) => (
+      <Menu.Item
+        key={c._id}
+        style={{ marginTop: '-0.2rem', marginBottom: '-0.1rem' }}>
+        <Space size='small'>
+          <Checkbox
+            onChange={handleCheck}
+            name='category'
+            valueCategoryId={c._id}
+            checked={categoryIds.includes(c._id)}
+          />
+          {c.name}
+        </Space>
+      </Menu.Item>
+    ));
+
+  const handleCheck = (e) => {
+    dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
+    setPrice([0, 0]);
+
+    let inTheState = [...categoryIds];
+    let justChecked = e.target.valueCategoryId;
+    let foundInTheState = inTheState.indexOf(justChecked);
+    // debugger
+    if (foundInTheState === -1) {
+      inTheState.push(justChecked);
+    } else {
+      inTheState.splice(foundInTheState, 1);
+    }
+    setCategoryIds(inTheState);
+    // debugger
+    fetchProducts({ category: inTheState });
   };
 
   return (
@@ -70,7 +111,7 @@ const Shop = () => {
           <h4>Поиск/фильтр</h4>
           <Menu mode='inline' defaultOpenKeys={['1', '2']}>
             <SubMenu
-              key=' '
+              key='1'
               title={
                 <span className='h6'>
                   <DollarOutlined /> Цена
@@ -84,6 +125,17 @@ const Shop = () => {
                 value={price}
                 onChange={handleSlider}
               />
+            </SubMenu>
+
+            <SubMenu
+              key='2'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined />
+                  Категории
+                </span>
+              }>
+              {showCategories()}
             </SubMenu>
           </Menu>
         </div>
