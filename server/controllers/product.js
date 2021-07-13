@@ -205,8 +205,38 @@ const handleCategory = async (req, res, category) => {
   }
 };
 
+const handleStars = async (req, res, stars) => {
+  try {
+    Product.aggregate(
+      {
+        $project: {
+          document: '$$ROOT',
+          floorAverage: { $floor: { $avg: '$raitings.star' } },
+        },
+      },
+      { $match: { floorAverage: stars } },
+    )
+      .limit(12)
+      .exec((err, aggregates) => {
+        if (err) {
+          console.log('aggError', err);
+          Product.find({ _id: aggregates })
+            .populate('category', '_id name')
+            .populate('subs', '_id name')
+            .populate('postedBy', '_id name')
+            .exec((err,products)=>{if (err) {
+              console.log('PRODUCT-AGG-ERROR',err);
+              res.json(products)
+            }});;
+        }
+      });
+  } catch {
+    (err) => console.log('err:', err);
+  }
+};
+
 exports.searchFilters = async (req, res) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, stars } = req.body;
   if (query) {
     // console.log('query', query);
     await handleQuery(req, res, query);
@@ -220,5 +250,8 @@ exports.searchFilters = async (req, res) => {
   if (category) {
     console.log('category', category);
     await handleCategory(req, res, category);
+  }
+  if (stars) {
+    await handleStars(req, res, stars);
   }
 };
