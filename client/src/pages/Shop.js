@@ -1,9 +1,14 @@
-import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons';
+import {
+  DollarOutlined,
+  DownSquareOutlined,
+  StarOutlined,
+} from '@ant-design/icons';
 import { Menu, Slider, Space } from 'antd';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../components/cards/ProductCard';
+import Star from '../components/forms/Star';
 import { getCategories } from '../functions/category';
 import {
   fetchProductsByFilter,
@@ -22,6 +27,7 @@ const Shop = () => {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
+  const [star, setStar] = useState('');
 
   useEffect(() => {
     loadAllProducts();
@@ -39,7 +45,7 @@ const Shop = () => {
   useEffect(() => {
     // console.log('ok to req');
     fetchProducts({ price });
-  }, [ok, price]);
+  }, [ok]);
 
   const loadAllProducts = () => {
     setLoading(true);
@@ -60,7 +66,7 @@ const Shop = () => {
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     });
-    setCategoryIds([])
+    setCategoryIds([]);
     setPrice(value);
     // console.log('price:',value);
 
@@ -84,11 +90,12 @@ const Shop = () => {
           {c.name}
         </Space>
       </Menu.Item>
-    ));
+    )); 
 
   const handleCheck = (e) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setPrice([0, 0]);
+    setStar('')
 
     let inTheState = [...categoryIds];
     let justChecked = e.target.valueCategoryId;
@@ -104,12 +111,36 @@ const Shop = () => {
     fetchProducts({ category: inTheState });
   };
 
+  const handleStarClick = (num) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: '',
+    });
+    debugger
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setStar(num)
+    fetchProducts({stars:num})
+    // console.log('e', num);
+  };
+
+  const showStars = () => {
+    let starsBlock = [];
+    for (let i = 5; i > 0; i--) {
+      starsBlock.push(
+        <Menu.Item key={`s${i}`}>
+          <Star starClick={handleStarClick} numberOfStars={i} />
+        </Menu.Item>,
+      );
+    }
+    return starsBlock;
+  };
   return (
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-3 pt-2'>
           <h4>Поиск/фильтр</h4>
-          <Menu mode='inline' defaultOpenKeys={['1', '2']}>
+          <Menu mode='inline' defaultOpenKeys={['1', '2', '3']}>
             <SubMenu
               key='1'
               title={
@@ -136,6 +167,16 @@ const Shop = () => {
                 </span>
               }>
               {showCategories()}
+            </SubMenu>
+
+            <SubMenu
+              title={
+                <span className='h6'>
+                  <StarOutlined /> Рейтинг
+                </span>
+              }
+              key='3'>
+              {showStars()}
             </SubMenu>
           </Menu>
         </div>

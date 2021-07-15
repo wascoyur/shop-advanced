@@ -205,34 +205,31 @@ const handleCategory = async (req, res, category) => {
   }
 };
 
-const handleStars = async (req, res, stars) => {
-  try {
-    Product.aggregate(
-      {
-        $project: {
-          document: '$$ROOT',
-          floorAverage: { $floor: { $avg: '$raitings.star' } },
-        },
-      },
-      { $match: { floorAverage: stars } },
-    )
-      .limit(12)
-      .exec((err, aggregates) => {
-        if (err) {
-          console.log('aggError', err);
-          Product.find({ _id: aggregates })
-            .populate('category', '_id name')
-            .populate('subs', '_id name')
-            .populate('postedBy', '_id name')
-            .exec((err,products)=>{if (err) {
-              console.log('PRODUCT-AGG-ERROR',err);
-              res.json(products)
-            }});;
-        }
-      });
-  } catch {
-    (err) => console.log('err:', err);
-  }
+const handleStars =  (req, res, stars) => {
+   Product.aggregate([
+     {
+       $project: {
+         document: '$$ROOT',
+         // title: "$title",
+         floorAverage: {
+           $floor: { $avg: '$raitings.star' }, // floor value of 3.33 will be 3
+         },
+       },
+     },
+     { $match: { floorAverage: stars } },
+   ])
+     .limit(12)
+     .exec((err, aggregates) => {
+       if (err) console.log('AGGREGATE ERROR', err);
+       Product.find({ _id: aggregates })
+         .populate('category', '_id name')
+         .populate('subs', '_id name')
+         .populate('postedBy', '_id name')
+         .exec((err, products) => {
+           if (err) console.log('PRODUCT AGGREGATE ERROR', err);
+           res.json(products);
+         });
+     });
 };
 
 exports.searchFilters = async (req, res) => {
@@ -252,6 +249,8 @@ exports.searchFilters = async (req, res) => {
     await handleCategory(req, res, category);
   }
   if (stars) {
+    console.log('stars', stars);
+
     await handleStars(req, res, stars);
   }
 };
