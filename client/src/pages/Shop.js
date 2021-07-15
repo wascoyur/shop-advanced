@@ -14,6 +14,7 @@ import {
   fetchProductsByFilter,
   getProductsByCount,
 } from '../functions/product';
+import { getSubs } from '../functions/sub';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -28,10 +29,14 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
   const [star, setStar] = useState('');
+  const [subs, setSubs] = useState([]);
+  const [sub, setSub] = useState('');
 
   useEffect(() => {
     loadAllProducts();
     getCategories().then((c) => setCategories(c.data));
+    getSubs().then((s) => setSubs(s.data));
+    // debugger;
   }, []);
 
   useEffect(() => {
@@ -68,7 +73,7 @@ const Shop = () => {
     });
     setCategoryIds([]);
     setPrice(value);
-    // console.log('price:',value);
+    setSub('');
 
     setTimeout(() => {
       setOk(!ok);
@@ -90,12 +95,12 @@ const Shop = () => {
           {c.name}
         </Space>
       </Menu.Item>
-    )); 
+    ));
 
   const handleCheck = (e) => {
     dispatch({ type: 'SEARCH_QUERY', payload: { text: '' } });
     setPrice([0, 0]);
-    setStar('')
+    setStar('');
 
     let inTheState = [...categoryIds];
     let justChecked = e.target.valueCategoryId;
@@ -116,11 +121,10 @@ const Shop = () => {
       type: 'SEARCH_QUERY',
       payload: '',
     });
-    debugger
     setPrice([0, 0]);
     setCategoryIds([]);
-    setStar(num)
-    fetchProducts({stars:num})
+    setStar(num);
+    fetchProducts({ stars: num });
     // console.log('e', num);
   };
 
@@ -135,12 +139,38 @@ const Shop = () => {
     }
     return starsBlock;
   };
+
+  const handleSub = (sub) => {
+    setSub(sub);
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    });
+    setPrice([0, 0]);
+    setCategoryIds([]);
+    setStar('');
+    fetchProducts({ sub: sub.key });
+  };
+
+  const showSubs = () =>
+    subs.map((c) => (
+      <Menu.Item
+        className='p-1 m-1 badge badge-secondary'
+        style={{ cursor: 'pointer', display: 'inline' }}
+        key={c._id}
+        onClick={(c) => {
+          handleSub(c);
+        }}>
+        {c.name}
+      </Menu.Item>
+    ));
+
   return (
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-3 pt-2'>
           <h4>Поиск/фильтр</h4>
-          <Menu mode='inline' defaultOpenKeys={['1', '2', '3']}>
+          <Menu mode='inline' defaultOpenKeys={['1', '2', '3', '4']}>
             <SubMenu
               key='1'
               title={
@@ -178,6 +208,16 @@ const Shop = () => {
               key='3'>
               {showStars()}
             </SubMenu>
+            <SubMenu
+              key='4'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined />
+                  Подкатегории
+                </span>
+              }>
+              {showSubs()}
+            </SubMenu>
           </Menu>
         </div>
         <div className='col-md-9'>
@@ -188,11 +228,12 @@ const Shop = () => {
           )}
           {products.length < 1 && <p>Товары не найдены</p>}
           <div className='row pb-5'>
-            {products.map((p) => (
-              <div key={p._id} className='col-md-4 mt-3'>
-                <ProductCard product={p} />
-              </div>
-            ))}
+            {products &&
+              products.map((p) => (
+                <div key={p._id} className='col-md-4 mt-3'>
+                  <ProductCard product={p} />
+                </div>
+              ))}
           </div>
         </div>
       </div>
