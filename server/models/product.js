@@ -47,11 +47,9 @@ const productSchema = new mongoose.Schema(
     },
     shipping: {
       type: String,
-      enum: ['Да', 'Нет', ''],
     },
     color: {
       type: String,
-      enum: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
     },
     brand: {
       type: String,
@@ -66,11 +64,11 @@ const productSchema = new mongoose.Schema(
     size: {
       country: {
         type: String,
-        enum: ['eu', 'ru', 'us', 'cn']
+        enum: ['eu', 'ru', 'us', 'cn'],
       },
-      value:String
+      value: String,
     },
-    adminproperties:{}
+    adminproperties: {},
   },
   { timestamps: true },
 );

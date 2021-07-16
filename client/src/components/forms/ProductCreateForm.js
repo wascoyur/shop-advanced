@@ -19,7 +19,7 @@ const ProductCreateForm = ({
     categories,
     subs,
     quantity,
-        colors,
+    colors,
     brands,
   } = values;
 
@@ -59,10 +59,12 @@ const ProductCreateForm = ({
         <label>Доставка</label>
         <select
           name='shipping'
+          defaultValue='Самовывоз'
           className='form-control'
           onChange={handleChange}>
-          <option value='Нет'>Нет</option>
-          <option value='Да'>Да</option>
+          <option value='СДЭК'>СДЭК</option>
+          <option value='Почта Росии'>Почта Росии</option>
+          <option value='Самовывоз'>Самовывоз</option>
         </select>
       </div>
       <div className='form-group'>
