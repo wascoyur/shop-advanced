@@ -250,20 +250,32 @@ const handleShipping = async (req, res, shippingMethod) => {
     .exec();
   res.json(products);
 };
+
 const handleColor = async (req, res, color) => {
   const products = await Product.find({ color: color })
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .populate('postedBy', '_id name')
-    .exec();;
+    .exec();
   res.json(products);
 };
+
+exports.getAttributes = async (req, res) => {
+  const { attribute } = req.body;
+  // console.log('attr:',req.body);
+
+  const allAttributes = await Product.distinct(attribute, {});
+  // console.log('allAttributes', allAttributes);
+
+  res.json(allAttributes);
+};
+
 const handleBrand = async (req, res, brand) => {
   const products = await Product.find({ brand: brand })
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .populate('postedBy', '_id name')
-    .exec();;
+    .exec();
   res.json(products);
 };
 

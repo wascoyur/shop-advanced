@@ -15,7 +15,9 @@ const {
   list,
   productsCount,
   productStar,
-  listRelated,searchFilters
+  listRelated,
+  searchFilters,
+  getAttributes,
 } = require('../controllers/product');
 
 router.post('/product', authCheck, adminCheck, create);
@@ -28,6 +30,7 @@ router.get('/products/total', productsCount);
 router.get('/products/:count', listAll);
 router.put('/product/star/:id', authCheck, productStar);
 router.get('/product/related/:productId', listRelated);
-router.post('/search/filters',searchFilters)
+router.post('/search/filters', searchFilters);
+router.post('/search/filters/attributes', getAttributes);
 
 module.exports = router;
