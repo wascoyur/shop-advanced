@@ -45,7 +45,7 @@ const Shop = () => {
     getSubs().then((s) => setSubs(s.data));
     getAttributes('brand').then((brands) => setBrands(brands));
     getAttributes('color').then((colors) => setColors(colors));
-    // getAttributes('shipping').then((shipping)=>setColors(colors))
+    getAttributes('shipping').then((shipping) => setShippingMethods(shipping));
     // getAttributes('color');
     // getAttributes('shipping');
   }, []);
@@ -68,7 +68,6 @@ const Shop = () => {
     getProductsByCount(12).then((p) => {
       setProducts(p.data);
       getAttributes('brand');
-      getColors();
       setLoading(false);
     });
   };
@@ -88,7 +87,8 @@ const Shop = () => {
     setSub('');
     setStar('');
     setBrand('');
-    setColor('')
+    setColor('');
+    setShippingMethod('')
   };
 
   const handleSlider = (value) => {
@@ -203,10 +203,7 @@ const Shop = () => {
     ));
   };
 
-  const getColors = () => {
-    setColors([...new Set(products.map((p) => p.color))]);
-    // debugger
-  };
+  
   const handleColors = (e) => {
     resetFilters();
     setColor(e.target.value);
@@ -229,8 +226,26 @@ const Shop = () => {
   };
 
   const getShippngMethod = () => {};
-  const handleShippingMethods = () => {};
-  const showShippingMethods = () => {};
+  const handleShippingMethods = (e) => {
+    resetFilters()
+    setShippingMethod(e.target.value)
+    fetchProducts({shipping:e.target.value})
+   };
+  
+  const showShippingMethods = () => {
+    return shippingMethods.map((s) => (
+      <Radio
+        style={{ display: 'flex' }}
+        key={s}
+        value={s}
+        name={s}
+        checked={s === shippingMethod}
+        onChange={handleShippingMethods}
+        className='pb-1 pl-4 pr-4'>
+        {s}
+      </Radio>
+    ));
+  };
 
   return (
     <div className='container-fluid'>
