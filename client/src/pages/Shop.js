@@ -13,9 +13,9 @@ import { getCategories } from '../functions/category';
 import {
   fetchProductsByFilter,
   getProductsByCount,
-  fetchBrands,
 } from '../functions/product';
 import { getSubs } from '../functions/sub';
+import { getAttributes } from '../functions/filters';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -171,17 +171,7 @@ const Shop = () => {
       </Menu.Item>
     ));
 
-  const getAttributes = useCallback(async (attribute) => {
-    const { data: fetchattributes } = await fetchBrands({
-      attribute: attribute,
-    });
-    // console.log('fetchbrands', fetchattributes);
-    // debugger;
-    if (fetchattributes && fetchattributes.length > 0) {
-      return fetchattributes;
-    }
-  }, []);
-
+ 
   const handleBrands = (e) => {
     resetFilters();
     setBrand(e.target.value);
@@ -225,7 +215,6 @@ const Shop = () => {
     ));
   };
 
-  const getShippngMethod = () => {};
   const handleShippingMethods = (e) => {
     resetFilters()
     setShippingMethod(e.target.value)

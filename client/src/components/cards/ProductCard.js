@@ -5,10 +5,25 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
+import _ from 'lodash';
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
+
+  const handleAddToCart = () => {
+    let cart = [];
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'));
+      }
+      cart.push({ ...product, count: 1 });
+    let unique = _.uniqWith(cart, _.isEqual);
+    localStorage.setItem('cart', JSON.stringify(unique));
+    }
+    
+  };
+
   return (
     <Fragment>
       {product && product.raitings && product.raitings.length > 0 ? (
@@ -27,7 +42,7 @@ const ProductCard = ({ product }) => {
             />
           }
           actions={[
-            <>
+            <a onClick={handleAddToCart}>
               <ShoppingCartOutlined
                 key='delete'
                 /* className='text-warning' */
@@ -35,7 +50,7 @@ const ProductCard = ({ product }) => {
               />
               <br />
               Положить в корзину
-            </>,
+            </a>,
             <Link to={`/product/${product._id}`}>
               <EyeOutlined key='edit' /*  className='text-danger' */ />
               <br />
