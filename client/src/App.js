@@ -29,6 +29,7 @@ import ProductPage from './pages/ProductPage';
 import CategoryHome from './pages/category/CategoryHome';
 import SubHome from './pages/subs/SubHome';
 import Shop from './pages/Shop';
+import Cart from './pages/Cart';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ const App = () => {
         <Route exact path='/register/complete' component={RegisterComplete} />
         <Route exact path='/forgot/password' component={ForgotPassword} />
         <Route exact path='/product/:slug' component={ProductPage} />
+        <Route exact path='/cart' component={Cart} />
         <UserRoute exact path='/user/history' component={History} />
         <UserRoute exact path='/user/password' component={Password} />
         <UserRoute exact path='/user/wishlist' component={Wishlist} />
