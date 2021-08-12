@@ -1,29 +1,37 @@
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Card,Tooltip  } from 'antd';
-import React,{useState} from 'react';
+import { Card, Tooltip } from 'antd';
+import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
 import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
-  const [toltip, setTooltip]=useState('Нажмите для добавления в корзину')
+  const [toltip, setTooltip] = useState('Нажмите для добавления в корзину');
+
+  const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    
     let cart = [];
     if (typeof window !== 'undefined') {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
       }
       cart.push({ ...product, count: 1 });
+    }
     let unique = _.uniqWith(cart, _.isEqual);
     localStorage.setItem('cart', JSON.stringify(unique));
-    }
-    setTooltip('Уже добавлено в корзину')
+    setTooltip('Уже добавлено в корзину');
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: unique,
+    });
   };
 
   return (
@@ -33,6 +41,7 @@ const ProductCard = ({ product }) => {
       ) : (
         <div className='text-center pt-1 pb-3'>Нет оценок</div>
       )}
+
       {product.images && product.images.length ? (
         <Card
           cover={
