@@ -1,6 +1,6 @@
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Card } from 'antd';
-import React from 'react';
+import { Card,Tooltip  } from 'antd';
+import React,{useState} from 'react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { showAverege } from '../../functions/rating';
@@ -10,8 +10,10 @@ import _ from 'lodash';
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
+  const [toltip, setTooltip]=useState('Нажмите для добавления в корзину')
 
   const handleAddToCart = () => {
+    
     let cart = [];
     if (typeof window !== 'undefined') {
       if (localStorage.getItem('cart')) {
@@ -21,7 +23,7 @@ const ProductCard = ({ product }) => {
     let unique = _.uniqWith(cart, _.isEqual);
     localStorage.setItem('cart', JSON.stringify(unique));
     }
-    
+    setTooltip('Уже добавлено в корзину')
   };
 
   return (
@@ -42,15 +44,17 @@ const ProductCard = ({ product }) => {
             />
           }
           actions={[
-            <a onClick={handleAddToCart}>
-              <ShoppingCartOutlined
-                key='delete'
-                /* className='text-warning' */
-                onClick={() => {}}
-              />
-              <br />
-              Положить в корзину
-            </a>,
+            <Tooltip title={toltip}>
+              <a onClick={handleAddToCart}>
+                <ShoppingCartOutlined
+                  key='delete'
+                  /* className='text-warning' */
+                  onClick={() => {}}
+                />
+                <br />
+                Положить в корзину
+              </a>
+            </Tooltip>,
             <Link to={`/product/${product._id}`}>
               <EyeOutlined key='edit' /*  className='text-danger' */ />
               <br />
