@@ -261,10 +261,14 @@ const handleColor = async (req, res, color) => {
 };
 
 exports.getAttributes = async (req, res) => {
-  const { attribute } = req.body;
-  // console.log('attr:',req.body);
+  const { attribute, product } = req.body;
+  let title = {}
+  if (product !== '') {
+    title={title:product}
+  }
+  console.log('attr:',req.body);
 
-  const allAttributes = await Product.distinct(attribute, {});
+  const allAttributes = await Product.distinct(attribute, title);
   // console.log('allAttributes', allAttributes);
 
   res.json(allAttributes);
