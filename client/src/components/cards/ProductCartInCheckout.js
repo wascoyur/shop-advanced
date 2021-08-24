@@ -4,26 +4,37 @@ import ModalImage from 'react-modal-image';
 import { getAttributes } from '../../functions/filters';
 import blank from '../../images/blank.png';
 import { useDispatch } from 'react-redux';
+import {toast}  from 'react-toastify'
 
 const ProductCartInCheckout = ({ p }) => {
   const [colors, setColors] = useState([]);
+  const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const colors = getAttributes('color', p.title).then((c) => setColors(c));
+    getAttributes('color', p.title).then((c) => setColors(c));
+    getAttributes('quantity', '', p._id).then((c) =>
+      setQuantity(c),
+    );
     // debugger
     // console.log('colors', colors);
   }, []);
 
-  const handleColorChange = (e) => {
+  const handleChangeAtribute = ({ target: { value, name } }) => {
     let cart = [];
+    console.log('name:', name, 'value:', value);
+    if ((name === 'count' && value < 1) || value > quantity) {
+      toast.error(`Указанного товара больше нет на складе. Доступно ${quantity} шт.`)
+      return;
+    }
     if (typeof window !== 'unefined') {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
       }
+
       cart.map((product, i) => {
         if (product._id === p._id) {
-          cart[i].color = e.target.value;
+          cart[i][name] = value;
         }
       });
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -49,7 +60,7 @@ const ProductCartInCheckout = ({ p }) => {
           <td>{p.brand}</td>
           <td>
             <select
-              onChange={handleColorChange}
+              onChange={handleChangeAtribute}
               name='color'
               className='form-control'>
               {p.color ? (
@@ -66,7 +77,15 @@ const ProductCartInCheckout = ({ p }) => {
                 ))}
             </select>
           </td>
-          <td>{p.count}</td>
+          <td className='text-center'>
+            <input
+              name='count'
+              className='form-control'
+              type='number'
+              value={p.count}
+              onChange={handleChangeAtribute}
+            />
+          </td>
           <td>{p.shipping}</td>
         </tr>
       </tbody>
