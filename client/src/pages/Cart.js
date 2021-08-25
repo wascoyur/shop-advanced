@@ -2,8 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCartInCheckout from '../components/cards/ProductCartInCheckout';
+import { userCart } from '../functions/user';
 
-const Cart = ({history}) => {
+const Cart = ({ history }) => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const getTotal = () => {
@@ -13,8 +14,14 @@ const Cart = ({history}) => {
   };
 
   const saveOrderToDb = () => {
-    alert('Saved');
-    history.push('/checkout')
+    userCart(cart, user.token)
+      .then((res) => {
+        console.log('res:', res);
+        if (res.data.ok) {
+          history.push('/checkout');
+        }
+      })
+      .catch((err) => console.log('err:', err));
   };
   const showCartItems = () => {
     return (
