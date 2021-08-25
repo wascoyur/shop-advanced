@@ -25,7 +25,7 @@ const SideDrawer = () => {
         <Row key={p._id}>
           <Col>
             <>
-              <img src={p.images[0].url} style={imageStyle} />
+              <img src={p.images[0].url} style={imageStyle} alt='' />
               <p className='text-center bg-secondary text-light'>
                 {p.title} x {p.count}
               </p>

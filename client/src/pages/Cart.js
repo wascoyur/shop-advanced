@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCartInCheckout from '../components/cards/ProductCartInCheckout';
 
-const Cart = () => {
+const Cart = ({history}) => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const getTotal = () => {
@@ -12,7 +12,10 @@ const Cart = () => {
     }, 0);
   };
 
-  const saveOrderToDb = () => {};
+  const saveOrderToDb = () => {
+    alert('Saved');
+    history.push('/checkout')
+  };
   const showCartItems = () => {
     return (
       <table className='table table-bordered'>
@@ -28,7 +31,9 @@ const Cart = () => {
             <th scope='col'>Удалить из корзины</th>
           </tr>
         </thead>
-        {cart.map(p=>(<ProductCartInCheckout key={p._id} p={p}/>))}
+        {cart.map((p) => (
+          <ProductCartInCheckout key={p._id} p={p} />
+        ))}
       </table>
     );
   };
@@ -70,7 +75,7 @@ const Cart = () => {
               onClick={saveOrderToDb}
               disabled={!cart.length}
               className='btn btn-sm btn-primary mt-2'>
-              Оплатить
+              оформить заказ
             </button>
           ) : (
             <button className='btn btn-sm btn-primary mt-2'>

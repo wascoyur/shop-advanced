@@ -13,7 +13,7 @@ const { Meta } = Card;
 const ProductCard = ({ product }) => {
   const [toltip, setTooltip] = useState('Нажмите для добавления в корзину');
 
-  const { user, cart } = useSelector((state) => ({ ...state }));
+  // const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
           }
           actions={[
             <Tooltip title={toltip}>
-              <a onClick={handleAddToCart}>
+              <a href='/#' onClick={handleAddToCart}>
                 <ShoppingCartOutlined
                   key='delete'
                   /* className='text-warning' */
