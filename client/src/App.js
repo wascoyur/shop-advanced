@@ -1,4 +1,4 @@
-import React, { useEffect,Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,6 +6,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Home from './pages/Home';
 import Header from './components/nav/Header';
+import SideDrawer from './components/drawer/SideDrawer';
 import RegisterComplete from './pages/auth/RegisterComplete';
 import ForgotPassword from './pages/auth/ForgotPassword';
 
@@ -66,35 +67,44 @@ const App = () => {
   return (
     <Fragment>
       <Header />
-      <ToastContainer />
-      <Switch>
-        <Route exact path='/' component={Home} />
-        <Route exact path='/login' component={Login} />
-        <Route exact path='/register' component={Register} />
-        <Route exact path='/register/complete' component={RegisterComplete} />
-        <Route exact path='/forgot/password' component={ForgotPassword} />
-        <Route exact path='/product/:slug' component={ProductPage} />
-        <Route exact path='/cart' component={Cart} />
-        <UserRoute exact path='/user/history' component={History} />
-        <UserRoute exact path='/user/password' component={Password} />
-        <UserRoute exact path='/user/wishlist' component={Wishlist} />
-        <AdminRoute exact path='/admin/dashboard' component={AdminDashboard} />
-        <AdminRoute exact path='/admin/category' component={CategoryCreate} />
-        <AdminRoute exact path='/admin/sub' component={SubCreate} />
-        <AdminRoute
-          exact
-          path='/admin/category/:slug'
-          component={CategoryUpdate}
-        />
-        <AdminRoute exact path='/admin/sub/:slug' component={SubUpdate} />
-        {/* <AdminRoute exact path='/admin/products' component={ProductCreate} /> */}
-        <AdminRoute exact path='/admin/product' component={ProductCreate} />
-        <AdminRoute exact path='/admin/products' component={AllProducts} />
-        <AdminRoute exact path='/admin/product/:id' component={ProductUpdate} />
-        <Route exact path='/category/:slug' component={CategoryHome}/>
-        <Route exact path='/sub/:slug' component={SubHome} />
-        <Route exact path='/shop' component={Shop}/>
-      </Switch>
+      <SideDrawer/>
+        <ToastContainer />
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/register/complete' component={RegisterComplete} />
+          <Route exact path='/forgot/password' component={ForgotPassword} />
+          <Route exact path='/product/:slug' component={ProductPage} />
+          <Route exact path='/cart' component={Cart} />
+          <UserRoute exact path='/user/history' component={History} />
+          <UserRoute exact path='/user/password' component={Password} />
+          <UserRoute exact path='/user/wishlist' component={Wishlist} />
+          <AdminRoute
+            exact
+            path='/admin/dashboard'
+            component={AdminDashboard}
+          />
+          <AdminRoute exact path='/admin/category' component={CategoryCreate} />
+          <AdminRoute exact path='/admin/sub' component={SubCreate} />
+          <AdminRoute
+            exact
+            path='/admin/category/:slug'
+            component={CategoryUpdate}
+          />
+          <AdminRoute exact path='/admin/sub/:slug' component={SubUpdate} />
+          {/* <AdminRoute exact path='/admin/products' component={ProductCreate} /> */}
+          <AdminRoute exact path='/admin/product' component={ProductCreate} />
+          <AdminRoute exact path='/admin/products' component={AllProducts} />
+          <AdminRoute
+            exact
+            path='/admin/product/:id'
+            component={ProductUpdate}
+          />
+          <Route exact path='/category/:slug' component={CategoryHome} />
+          <Route exact path='/sub/:slug' component={SubHome} />
+          <Route exact path='/shop' component={Shop} />
+        </Switch>
     </Fragment>
   );
 };
