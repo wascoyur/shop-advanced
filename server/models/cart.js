@@ -13,9 +13,9 @@ const cartSchema = new mongoose.Schema(
     ],
     cartTotal: Number,
     totalAfterDiscount: Number,
-    orderdBy: { type: objectId, ref: 'User' },
+    orderdBy: { type: ObjectId, ref: 'User' },
   },
   { timestamps: true },
 );
 
-module.exports = mongoose.model('Cart', cartScema);
+module.exports = mongoose.model('Cart', cartSchema);
