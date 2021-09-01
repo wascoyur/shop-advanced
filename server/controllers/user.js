@@ -26,7 +26,6 @@ exports.userCart = async (req, res) => {
   for (let i = 0; i < products.length; i++) {
     cartTotal = cartTotal + products[i].price * products[i].count;
     // console.log('cartTotal', cartTotal);
-    
   }
   // console.log('products,,', products, 'cartTotal', cartTotal);
 
@@ -39,4 +38,3 @@ exports.userCart = async (req, res) => {
   console.log('new cart saved', newCart);
   res.json({ ok: true });
 };
- 
