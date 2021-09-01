@@ -1,14 +1,20 @@
-const express = require('express');
-
+const express = require("express");
 const router = express.Router();
-const { authcheck } = require('../middlewares/auth');
-const { userCart } = require('../controllers/user');
 
-router.post('/user/cart', authcheck, userCart);
+const  {authCheck}  = require('../middlewares/auth');
+const  {userCart}  = require('../controllers/user');
 
-// router.get('/user', (req, res) => {
+// console.log('routes',authCheck);
+router.post(
+  '/user/cart',
+  authCheck,
+  userCart,
+);
+
+
+// router.get("/user/cart", (req, res) => {
 //   res.json({
-//     data: 'hey you hit user API endpoint',
+//     data: "hey you hit user API endpoint",
 //   });
 // });
 
