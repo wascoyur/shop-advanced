@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 export const userCart = async (cart, authtoken) =>
   await axios.post(
@@ -7,3 +7,8 @@ export const userCart = async (cart, authtoken) =>
     { cart },
     { headers: { authtoken } },
   );
+
+export const getUserCart = async (authtoken) =>
+  await axios.get(`${process.env.REACT_APP_API}/user/cart`, {
+    headers: { authtoken },
+  });
