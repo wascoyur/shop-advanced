@@ -35,13 +35,23 @@ const Checkout = () => {
       <div className='col-md-6'>
         <h4>Итого:</h4>
         <h1>{total} руб.</h1>
-        {JSON.stringify(products)}
+        {/* {JSON.stringify(products)} */}
         <hr />
-        <p>Товаров х </p>
+        <p>
+          Товаров, шт{' '}
+          {products.reduce((count, p) => {
+            return count + Number(p.count);
+          }, 0)}{' '}
+        </p>
         <hr />
-        <p>List products</p>
+        <p>
+          Список товаров:{' '}
+          {products.map((p,i) => {
+            return <div key={i}>{i+1}. {p.product.title} ({p.color}) x {p.count} шт. = {p.product.price * p.count}</div>;
+          })}{' '}
+        </p>
         <hr />
-        <p>Summary total: `${} руб`</p>
+        <p>Итоговая сумма: {total} руб</p>
         <div className='row'>
           <div className='col-md-6'>
             <button className='btn btn-primary'>Оплатить заказ</button>
