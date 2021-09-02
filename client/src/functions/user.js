@@ -19,7 +19,7 @@ export const emptyUserCart = async (authtoken) =>
   });
 
 export const saveUserAddress = async (authtoken, address) =>
-  await axios.delete(
+  await axios.post(
     `${process.env.REACT_APP_API}/user/address`,
     { address },
     {

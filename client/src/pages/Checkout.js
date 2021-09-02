@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { emptyUserCart, getUserCart, saveUserAddress } from '../functions/user';
-import {toast} from'react-toastify'
+import { toast } from 'react-toastify'
+import RectQuill from'react-quill'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css' 
 
 const Checkout = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [address, setAddress] = useState('')
+  const [addresSaved, setAddressSaved]=useState(false)
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -32,6 +37,15 @@ const Checkout = () => {
     });
   };
   
+  const saveAddressToDb = ( ) => {
+    saveUserAddress(user.token, address).then(res => {
+       if (res.data.ok) {
+         setAddressSaved(true)
+         toast.success('Адрес доставки установлен')
+       }
+     })
+    
+  } 
 
   return (
     <div className='row'>
@@ -39,8 +53,8 @@ const Checkout = () => {
         <h4>Адрес доставки</h4>
         <br />
         <br />
-        text
-        <button className='btn btn-primary mt-2'>Сохранить</button>
+        <ReactQuill theme='snow' onChange={setAddress}/>
+        <button className='btn btn-primary mt-2' onClick={saveAddressToDb}>Сохранить</button>
         <hr />
         <h4>Есть купон?</h4>
         <br />
@@ -59,7 +73,7 @@ const Checkout = () => {
           }, 0)}{' '}
         </p>
         <hr />
-        <p>
+        
           Список товаров:{' '}
           {products.map((p, i) => {
             return (
@@ -69,12 +83,12 @@ const Checkout = () => {
               </div>
             );
           })}{' '}
-        </p>
+        
         <hr />
         <p>Итоговая сумма: {total} руб</p>
         <div className='row'>
           <div className='col-md-6'>
-            <button className='btn btn-primary'>Оплатить заказ</button>
+            <button className='btn btn-primary' disabled={!addresSaved || !products.length}>Оплатить заказ</button>
           </div>
           <div className='col-md-6'>
             <button
