@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserCart } from '../functions/user';
+import { emptyUserCart, getUserCart } from '../functions/user';
+import {toast} from'react-toastify'
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,20 @@ const Checkout = () => {
     });
   }, []);
 
-  const saveAdressToDb = () => {};
+  const emptyCart = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cart');
+    }
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: [],
+    });
+    emptyUserCart(user.token).then((res) => {
+      setProducts([]);
+      setTotal(0);
+      toast.success('Корзина очищена. Можно продолжать покупки.');
+    });
+  };
   return (
     <div className='row'>
       <div className='col-md-6'>
@@ -24,9 +38,7 @@ const Checkout = () => {
         <br />
         <br />
         text
-        <button className='btn btn-primary mt-2' onClick={saveAdressToDb}>
-          Сохранить
-        </button>
+        <button className='btn btn-primary mt-2'>Сохранить</button>
         <hr />
         <h4>Есть купон?</h4>
         <br />
@@ -39,6 +51,7 @@ const Checkout = () => {
         <hr />
         <p>
           Товаров, шт{' '}
+          
           {products.reduce((count, p) => {
             return count + Number(p.count);
           }, 0)}{' '}
@@ -46,8 +59,13 @@ const Checkout = () => {
         <hr />
         <p>
           Список товаров:{' '}
-          {products.map((p,i) => {
-            return <div key={i}>{i+1}. {p.product.title} ({p.color}) x {p.count} шт. = {p.product.price * p.count}</div>;
+          {products.map((p, i) => {
+            return (
+              <div key={i}>
+                {i + 1}. {p.product.title} ({p.color}) x {p.count} шт. ={' '}
+                {p.product.price * p.count}
+              </div>
+            );
           })}{' '}
         </p>
         <hr />
@@ -57,7 +75,12 @@ const Checkout = () => {
             <button className='btn btn-primary'>Оплатить заказ</button>
           </div>
           <div className='col-md-6'>
-            <button className='btn btn-primary'>Очистить корзину</button>
+            <button
+              className='btn btn-primary'
+              onClick={emptyCart}
+              disabled={!products.length}>
+              Очистить корзину
+            </button>
           </div>
         </div>
       </div>
