@@ -7,11 +7,12 @@ exports.userCart = async (req, res) => {
   let products = [];
 
   const user = await User.findOne({ email: req.user.email }).exec();
-  let cartExistByThisUser = await Cart.findOne({ orderedBy: user._id }).exec();
+  let cartExistByThisUser = await Cart.findOne({ orderdBy: user._id }).exec();
   if (cartExistByThisUser) {
     cartExistByThisUser.remove();
     console.log('removed cart');
   }
+
   for (let i = 0; i < cart.length; i++) {
     let object = {};
     object.product = cart[i]._id;
@@ -51,8 +52,18 @@ exports.getUserCart = async (req, res) => {
 
 exports.emptyCart = async (req, res) => {
   // console.log('emptyCart');
-  
-  const user = await User.findOne({ email: req.user.email }).exec();
+
+  const user = await User.findOneAndUpdate({ email: req.user.email }).exec();
   const cart = await Cart.findOneAndRemove({ orderdBy: user._id }).exec();
-  res.json(cart)
+  res.json(cart);
+};
+
+exports.saveAddress = async (req, res) => {
+  // console.log('emptyCart');
+
+  const userAddress = await User.findOne(
+    { email: req.user.email },
+    { address: req.body.address },
+  ).exec();
+  res.json({ ok: true });
 };

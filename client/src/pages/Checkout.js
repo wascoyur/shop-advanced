@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { emptyUserCart, getUserCart } from '../functions/user';
+import { emptyUserCart, getUserCart, saveUserAddress } from '../functions/user';
 import {toast} from'react-toastify'
 
 const Checkout = () => {
@@ -31,6 +31,8 @@ const Checkout = () => {
       toast.success('Корзина очищена. Можно продолжать покупки.');
     });
   };
+  
+
   return (
     <div className='row'>
       <div className='col-md-6'>
