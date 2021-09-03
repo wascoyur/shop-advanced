@@ -41,7 +41,7 @@ const AdminNav = () => {
       </ul>
       <ul className='nav flex-column'>
         <li className='nav-item'>
-          <Link to='/admin/cupons' className='nav-link'>
+          <Link to='/admin/coupon' className='nav-link'>
             Купоны
           </Link>
         </li>
