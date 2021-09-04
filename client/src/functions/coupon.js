@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getCoupon = async () => {
+export const getCoupons = async () => {
   return await axios.get(`${process.env.REACT_APP_API}/coupons`);
 };
 

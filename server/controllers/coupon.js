@@ -1,7 +1,7 @@
 const Coupon = require('../models/coupon');
 
 exports.create = async (req, res) => {
-  console.log('create coupon:', req.body);
+  // console.log('create coupon:', req.body);
 
   try {
     const { name, expiry, discount } = req.body;

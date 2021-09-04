@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createCoupon = exports.removeCoupon = exports.getCoupon = void 0;
+exports.createCoupon = exports.removeCoupon = exports.getCoupons = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var getCoupon = function getCoupon() {
-  return regeneratorRuntime.async(function getCoupon$(_context) {
+var getCoupons = function getCoupons() {
+  return regeneratorRuntime.async(function getCoupons$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -28,7 +28,7 @@ var getCoupon = function getCoupon() {
   });
 };
 
-exports.getCoupon = getCoupon;
+exports.getCoupons = getCoupons;
 
 var removeCoupon = function removeCoupon(couponId, authtoken) {
   return regeneratorRuntime.async(function removeCoupon$(_context2) {
