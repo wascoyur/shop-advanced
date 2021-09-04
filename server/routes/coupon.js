@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { authCheck, adminCheck } = require('../middlewares/auth');
-const { create, remove ,list} = require('../controllers/coupon');
+const { create, remove, list } = require('../controllers/coupon');
 
 // console.log('routes',authCheck);
 router.post('/coupon', authCheck, adminCheck, create);

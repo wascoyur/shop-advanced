@@ -1,6 +1,8 @@
 const Coupon = require('../models/coupon');
 
 exports.create = async (req, res) => {
+  console.log('create coupon:', req.body);
+
   try {
     const { name, expiry, discount } = req.body;
     res.json(await new Coupon({ name, expiry, discount }).save());

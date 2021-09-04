@@ -9,7 +9,7 @@ const couponSchema = new mongoose.Schema(
       uppercase: true,
       required: 'Name is requared',
       minlength: [6, 'Too short'],
-      maxlength: [12, 'Too long'],
+      maxlength: [13, 'Too long'],
     },
     expiry: { type: Date, required: true },
     discount: { type: Number, required: true },
