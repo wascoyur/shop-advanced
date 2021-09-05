@@ -26,10 +26,6 @@ const CreateCouponPage = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    getCoupons().then((res) => setCoupons(res.data));
-  }, []);
-
-  useEffect(() => {
     loadAllCoupons();
   }, []);
 
