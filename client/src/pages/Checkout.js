@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { emptyUserCart, getUserCart, saveUserAddress } from '../functions/user';
+import {
+  applyCoupon,
+  emptyUserCart,
+  getUserCart,
+  saveUserAddress,
+} from '../functions/user';
 import { toast } from 'react-toastify';
 import RectQuill from 'react-quill';
 import ReactQuill from 'react-quill';
@@ -14,6 +19,7 @@ const Checkout = () => {
   const [address, setAddress] = useState('');
   const [addresSaved, setAddressSaved] = useState(false);
   const [coupon, setCoupon] = useState('');
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState('');
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -75,6 +81,14 @@ const Checkout = () => {
   );
   const applyDiscountCoupon = () => {
     console.log('coupon to back', coupon);
+    applyCoupon(user.token, coupon).then((res) => {
+      if (res.data) {
+        setTotalAfterDiscount(res.data);
+      }
+      if (res.data.err) {
+        // setDiscountError(res.data.err);
+      }
+    });
   };
 
   const showApplyCoupon = () => (

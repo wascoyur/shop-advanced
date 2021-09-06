@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
+const Coupon = require('../models/coupon');
 
 exports.userCart = async (req, res) => {
   const { cart } = req.body;
@@ -70,8 +71,10 @@ exports.saveAddress = async (req, res) => {
 
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body;
+  console.log('coupon', coupon);
 
   const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+
   if (validCoupon === null) {
     return res.json({ err: 'Invalid coupon' });
   }
