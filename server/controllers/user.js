@@ -67,3 +67,30 @@ exports.saveAddress = async (req, res) => {
   ).exec();
   res.json({ ok: true });
 };
+
+exports.applyCouponToUserCart = async (req, res) => {
+  const { coupon } = req.body;
+
+  const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+  if (validCoupon === null) {
+    return res.json({ err: 'Invalid coupon' });
+  }
+  const user = await User.findOne({ email: req.user.email }).exec();
+
+  let { products, cartTotal } = await Cart.findOne({
+    orderdBy: user._id,
+  })
+    .populate('product.product', '_id title price')
+    .exec();
+  let totalAfterDiscount = (
+    cartTotal -
+    (cartTotal * validCoupon.discount) / 100
+  ).toFixed(2);
+
+  Cart.findOneAndUpdate(
+    { orderdBy: user._id },
+    { totalAfterDiscount },
+    { new: true },
+  );
+  res.json(totalAfterDiscount);
+};
