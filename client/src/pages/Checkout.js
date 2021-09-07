@@ -10,10 +10,11 @@ import { toast } from 'react-toastify';
 import RectQuill from 'react-quill';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Payment from './Payment';
 
-const Checkout = () => {
+const Checkout = ({ history }) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, Reducer } = useSelector((state) => ({ ...state }));
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState('');
@@ -87,9 +88,11 @@ const Checkout = () => {
     applyCoupon(user.token, coupon).then((res) => {
       if (res.data) {
         setTotalAfterDiscount(res.data);
+        dispatch({ type: 'COUPON_APPLIED', payload: true });
       }
       if (res.data.err) {
         setDiscountError(res.data.err);
+        dispatch({ type: 'COUPON_APPLIED', payload: false });
       }
     });
   };
@@ -145,7 +148,8 @@ const Checkout = () => {
           <div className='col-md-6'>
             <button
               className='btn btn-primary'
-              disabled={!addresSaved || !products.length}>
+              disabled={!addresSaved || !products.length}
+              onClick={() => history.push('/payment')}>
               Оплатить заказ
             </button>
           </div>
