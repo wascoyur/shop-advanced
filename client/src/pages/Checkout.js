@@ -19,7 +19,8 @@ const Checkout = () => {
   const [address, setAddress] = useState('');
   const [addresSaved, setAddressSaved] = useState(false);
   const [coupon, setCoupon] = useState('');
-  const [totalAfterDiscount, setTotalAfterDiscount] = useState('');
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+  const [discountError, setDiscountError] = useState('');
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -40,6 +41,8 @@ const Checkout = () => {
     emptyUserCart(user.token).then((res) => {
       setProducts([]);
       setTotal(0);
+      setTotalAfterDiscount(0);
+      setCoupon('');
       toast.success('Корзина очищена. Можно продолжать покупки.');
     });
   };
@@ -86,7 +89,7 @@ const Checkout = () => {
         setTotalAfterDiscount(res.data);
       }
       if (res.data.err) {
-        // setDiscountError(res.data.err);
+        setDiscountError(res.data.err);
       }
     });
   };
@@ -97,7 +100,11 @@ const Checkout = () => {
         type='text'
         className='form-control'
         value={coupon}
-        onChange={(e) => setCoupon(e.target.value)}></input>
+        onChange={(e) => {
+          setCoupon(e.target.value);
+          setDiscountError('');
+        }}
+      />
 
       <button onClick={applyDiscountCoupon} className='btn btn-primary mt-2'>
         применить
@@ -112,11 +119,12 @@ const Checkout = () => {
         <h4>Есть купон?</h4>
         <br />
         {showApplyCoupon()}
+        <br />
+        {discountError && <p className='bg-danger з-2'>{discountError}</p>}
       </div>
       <div className='col-md-6'>
         <h4>Итого:</h4>
         <h1>{total} руб.</h1>
-        {/* {JSON.stringify(products)} */}
         <hr />
         <p>
           Товаров, шт{' '}
@@ -128,6 +136,11 @@ const Checkout = () => {
         {showProductSummary()}
 
         <p>Итоговая сумма: {total} руб</p>
+        {totalAfterDiscount > 0 && (
+          <p className='bg-success p-2'>
+            Купон использован. К оплате: {totalAfterDiscount} руб.{' '}
+          </p>
+        )}
         <div className='row'>
           <div className='col-md-6'>
             <button
