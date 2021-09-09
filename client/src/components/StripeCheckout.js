@@ -3,23 +3,33 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useSelector, useDispatch } from 'react-redux';
 import { createPaymentIntent } from '../functions/stripe';
 import { Link } from 'react-router-dom';
+import { Card } from 'antd';
+import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, couponReducer: coupon } = useSelector((state) => ({
+    ...state,
+  }));
   const [succsed, setSuccsed] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState('');
   const [disabled, setDisabled] = useState('');
   const [clientSecret, setClientSecret] = useState('');
+  const [cartTotal, setCartTotal] = useState('');
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState('');
+  const [payable, setPayable] = useState('');
 
   const stripe = useStripe();
   const elements = useElements();
 
   useEffect(() => {
-    createPaymentIntent(user.token).then((res) => {
+    createPaymentIntent(user.token, coupon).then((res) => {
       console.log('create payment intent:', res.data);
       setClientSecret(res.data.clientSecret);
+      setCartTotal(res.data.cartTotal);
+      setTotalAfterDiscount(res.data.totalAfterDiscount);
+      setPayable(res.data.payable);
     });
   }, []);
 
@@ -67,10 +77,28 @@ const StripeCheckout = ({ history }) => {
   };
   return (
     <>
-      <p className={succsed ? 'result-message' : 'result-message-hidden'}>
-        Оплата успешна{' '}
-        <Link to={'user/history'}>Посмотреть в истории покупок </Link>
-      </p>
+      {!succsed && (
+        <div>
+          {' '}
+          {coupon && totalAfterDiscount !== undefined ? (
+            <p className='alert alert-success'>{`Сумма после применения скидки: ${totalAfterDiscount} руб.`}</p>
+          ) : (
+            <p className='alert alert-danger'>Скидки не использованы</p>
+          )}
+        </div>
+      )}
+      <Card
+        actions={[
+          <>
+            <DollarOutlined className='text-info' /> Сумма покупки: {cartTotal}{' '}
+            руб
+          </>,
+          <>
+            <CheckOutlined className='text-info' /> Сумма к оплате:{' '}
+            {(payable / 100).toFixed(2)} руб
+          </>,
+        ]}
+      />
       <form className='stripe-form' id='payment-form' onSubmit={handleSubmit}>
         <CardElement
           id='card-element'
@@ -95,6 +123,10 @@ const StripeCheckout = ({ history }) => {
             {error.message}
           </div>
         )}
+        <p className={succsed ? 'result-message' : 'result-message-hidden'}>
+          Оплата успешна{' '}
+          <Link to={'user/history'}>Посмотреть в истории покупок </Link>
+        </p>
       </form>
     </>
   );
