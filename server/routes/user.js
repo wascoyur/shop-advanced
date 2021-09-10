@@ -8,6 +8,7 @@ const {
   emptyCart,
   saveAddress,
   applyCouponToUserCart,
+  createOrder,
 } = require('../controllers/user');
 
 // console.log('routes',authCheck);
@@ -16,5 +17,7 @@ router.get('/user/cart', authCheck, getUserCart);
 router.delete('/user/cart', authCheck, emptyCart);
 router.post('/user/address', authCheck, saveAddress);
 router.post('/user/cart/coupon', authCheck, applyCouponToUserCart);
+
+router.post('user/order', authCheck, createOrder);
 
 module.exports = router;
