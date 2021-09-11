@@ -14,13 +14,14 @@ const orderSchema = new mongoose.Schema(
     paymentIntent: {},
     orderStatus: {
       type: String,
-      default: 'Not processing',
+      default: 'Not Processing',
       enum: [
         'Not Processing',
         'Processing',
         'Dispatched',
         'Cancelled',
         'Completed',
+        'succeeded',
       ],
     },
     orderdBy: { type: ObjectId, ref: 'User' },

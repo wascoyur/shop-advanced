@@ -5,6 +5,7 @@ import { createPaymentIntent } from '../functions/stripe';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 import { DollarOutlined, CheckOutlined } from '@ant-design/icons';
+import { createOrder, emptyUserCart } from '../functions/user';
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
@@ -49,6 +50,22 @@ const StripeCheckout = ({ history }) => {
       setError(`При оплате произошла ошибка: ${payload.error.message}`);
       setProcessing(false);
     } else {
+      createOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('cart');
+          }
+          dispatch({
+            type: 'ADD_TO_CART',
+            payload: [],
+          });
+          dispatch({
+            type: 'COUPON_APPLIED',
+            payload: false,
+          });
+          emptyUserCart(user.token);
+        }
+      });
       setError(null);
       setProcessing(false);
       setSuccsed(true);
