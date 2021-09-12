@@ -7,6 +7,7 @@ import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const { Meta } = Card;
 
@@ -21,6 +22,10 @@ const ProductCard = ({ product }) => {
     if (typeof window !== 'undefined') {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
+      }
+      if (product.quantity < 1) {
+        toast.warning('Товар закончился на складе');
+        return;
       }
       cart.push({ ...product, count: 1 });
     }
@@ -47,75 +52,44 @@ const ProductCard = ({ product }) => {
         <div className='text-center pt-1 pb-3'>Нет оценок</div>
       )}
 
-      {product.images && product.images.length ? (
-        <Card
-          cover={
-            <img
-              className='p-1'
-              alt=''
-              src={product.images[0].url}
-              style={{ hight: '150px', objectFit: 'cover' }}
-            />
-          }
-          actions={[
-            <Tooltip title={toltip}>
-              <a href='/#' onClick={handleAddToCart}>
-                <ShoppingCartOutlined
-                  key='delete'
-                  /* className='text-warning' */
-                  onClick={() => {}}
-                />
-                <br />
-                Положить в корзину
-              </a>
-            </Tooltip>,
-            <Link to={`/product/${product._id}`}>
-              <EyeOutlined key='edit' /*  className='text-danger' */ />
-              <br />
-              Подробнее..
-            </Link>,
-          ]}>
-          <Meta
-            title={`${product.title} - ${product.price}р.`}
-            description={`${
-              product.description && product.description.substring(0, 10)
-            }...`}
+      <Card
+        cover={
+          <img
+            className='p-1'
+            alt=''
+            src={
+              product.images && product.images.length > 0
+                ? product.images[0].url
+                : blank
+            }
+            style={{ hight: '150px', objectFit: 'cover' }}
           />
-        </Card>
-      ) : (
-        <Card
-          cover={
-            <img
-              className='p-1'
-              alt=''
-              src={blank}
-              style={{ hight: '150px', objectFit: 'cover' }}
-            />
-          }
-          actions={[
-            <>
-              <ShoppingCartOutlined
-                key='delete'
-                /* className='text-warning' */
-                onClick={() => {}}
-              />
+        }
+        actions={[
+          <Tooltip title={toltip}>
+            <a onClick={handleAddToCart} disabled={true}>
+              <ShoppingCartOutlined className='text-danger' />
               <br />
-              Положить в корзину
-            </>,
-            <Link to={`/product/${product._id}`}>
-              <EyeOutlined key='edit' /*  className='text-danger' */ />
-              <br />
-              Подробнее..
-            </Link>,
-          ]}>
-          <Meta
-            title={`${product.title} - цена: ${product.price}`}
-            description={`${
-              product.description && product.description.substring(0, 10)
-            }...`}
-          />
-        </Card>
-      )}
+              {product.quantity < 1 ? (
+                <p>Товара нет на складе</p>
+              ) : (
+                <p>Положить в корзину</p>
+              )}
+            </a>
+          </Tooltip>,
+          <Link to={`/product/${product._id}`}>
+            <EyeOutlined key='edit' className='text-warning' />
+            <br />
+            Подробнее..
+          </Link>,
+        ]}>
+        <Meta
+          title={`${product.title} - ${product.price}р.`}
+          description={`${
+            product.description && product.description.substring(0, 10)
+          }...`}
+        />
+      </Card>
     </Fragment>
   );
 };
