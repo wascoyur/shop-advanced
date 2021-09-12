@@ -123,3 +123,11 @@ exports.createOrder = async (req, res) => {
 
   res.json({ ok: true });
 };
+
+exports.orders = async (req, res) => {
+  let user = await User.findOne({ email: req.user.email }).exec();
+  let userOrders = await Order.find(
+    { orderdBy: user._id }.populate('products.product'),
+  ).exec;
+  res.json(userOrders);
+};
