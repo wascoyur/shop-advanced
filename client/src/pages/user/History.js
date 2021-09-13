@@ -23,7 +23,7 @@ const History = () => {
           <UserNav />
         </div>
         <div className='col'>user History page</div>
-        {JSON.stringify(orders)}
+        {orders.length}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu,Badge } from 'antd';
+import { Menu, Badge } from 'antd';
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -32,6 +32,7 @@ const Header = () => {
   };
 
   const logout = () => {
+    localStorage.removeItem('cart');
     firebase.auth().signOut();
     dispatch({
       type: 'LOGOUT',
@@ -57,9 +58,9 @@ const Header = () => {
 
         <Item key='cart' icon={<ShoppingCartOutlined />}>
           <Link to='/cart'>
-            <Badge count={cart.length} offset={[10,0]}>
+            <Badge count={cart.length} offset={[10, 0]}>
               Корзина
-          </Badge>
+            </Badge>
           </Link>
         </Item>
 
