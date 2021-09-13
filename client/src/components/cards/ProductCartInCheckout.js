@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Fragment } from 'react';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import React, { Fragment, useEffect, useState } from 'react';
 import ModalImage from 'react-modal-image';
-import { getAttributes } from '../../functions/filters';
-import blank from '../../images/blank.png';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-  CarOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { getAttributes } from '../../functions/filters';
+import blank from '../../images/blank.png';
 
 const ProductCartInCheckout = ({ p }) => {
   const [colors, setColors] = useState([]);
@@ -47,9 +42,9 @@ const ProductCartInCheckout = ({ p }) => {
     }
   };
 
-  const hanndleRemove=()=>{
+  const hanndleRemove = () => {
     let cart = [];
-     
+
     if (typeof window !== 'unefined') {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
@@ -57,13 +52,13 @@ const ProductCartInCheckout = ({ p }) => {
 
       cart.map((product, i) => {
         if (product._id === p._id) {
-          cart.splice(i,1);
+          cart.splice(i, 1);
         }
       });
       localStorage.setItem('cart', JSON.stringify(cart));
       dispatch({ type: 'ADD_TO_CART', payload: cart });
     }
-  }
+  };
 
   return (
     <Fragment>

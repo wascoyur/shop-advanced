@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import ShowPaymentInfo from '../../components/cards/ShowPaymentInfo';
 import UserNav from '../../components/nav/UserNav';
 import { getUserOrders } from '../../functions/user';
 
@@ -49,7 +50,7 @@ const History = () => {
   const showEachOrders = () =>
     orders.map((order, i) => (
       <div key={i} className='m-5 p-3 card'>
-        <p>show payment info</p>
+        <ShowPaymentInfo order={order} />
         {showOrderInTable(order)}
         <div className='row'>
           <div className='col'>
