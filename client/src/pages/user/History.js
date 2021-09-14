@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ShowPaymentInfo from '../../components/cards/ShowPaymentInfo';
 import UserNav from '../../components/nav/UserNav';
+import Invoice from '../../components/orders/Invoice';
 import { getUserOrders } from '../../functions/user';
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFViewer,
-  PDFDownloadLink,
-} from '@react-pdf/renderer';
 
 const History = () => {
   const [orders, setOrders] = useState([]);
@@ -59,14 +52,8 @@ const History = () => {
   const showDowloadLinkPDF = (order) => (
     <PDFDownloadLink
       className='btn btn-sm btn-block btn-outline-primary'
-      fileName='кассовый чек.spdf'
-      document={
-        <Document>
-          <Page size='A4'>
-            <View></View>
-          </Page>
-        </Document>
-      }>
+      fileName='кассовый чек.pdf'
+      document={<Invoice order={order} />}>
       Скачать копию
     </PDFDownloadLink>
   );
