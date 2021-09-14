@@ -64,7 +64,7 @@ const History = () => {
         <ShowPaymentInfo order={order} />
         {showOrderInTable(order)}
         <div className='row'>
-          <div className='col'>{showDowloadLinkPDF()}</div>
+          <div className='col'>{showDowloadLinkPDF(order)}</div>
         </div>
       </div>
     ));
