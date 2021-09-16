@@ -4,6 +4,7 @@ import AdminNav from '../../components/nav/AdminNav';
 import { getOrders, changeStatus } from '../../functions/admin';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import Orders from '../../components/orders/Orders';
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -20,7 +21,7 @@ const AdminDashboard = () => {
     });
   };
   const handleStatusChange = (orderId, orderStatus) => {
-    changeStatus(user.token).then((res) => {
+    changeStatus(orderId, orderStatus, user.token).then((res) => {
       toast.success('Статус заказа обновлен.');
       loadOrders();
     });
@@ -34,7 +35,8 @@ const AdminDashboard = () => {
 
         <Col>
           <h4>Панель администратора</h4>
-          {JSON.stringify(orders)}
+          {/* {JSON.stringify(orders)} */}
+          <Orders handleStatusChange={handleStatusChange} orders={orders} />
         </Col>
       </div>
     </div>
