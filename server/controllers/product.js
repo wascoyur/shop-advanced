@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    console.log('update', req.params._id);
+    // console.log('update', req.params._id);
     // if (req.body.slug) {
     //   req.body.slug = slugify(req.body.title);
     // }

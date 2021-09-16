@@ -150,7 +150,7 @@ exports.getWishlist = async (req, res) => {
   res.json(list);
 };
 exports.removeFromWishlist = async (req, res) => {
-  const { productId } = req.body;
+  const { productId } = req.params;
   const user = User.findByIdAndUpdate(
     { email: req.body.email },
     { $pull: { wishlist: productId } },
