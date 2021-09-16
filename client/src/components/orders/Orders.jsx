@@ -2,14 +2,42 @@ import React from 'react';
 import ShoPaymentInfo from '../cards/ShowPaymentInfo';
 
 const Orders = ({ orders, handleStatusChange }) => {
+  const showOrderInTable = (order) => (
+    <table className='table table-bordered'>
+      <thead className='thead-light'>
+        <tr>
+          <th scope='col'>Название</th>
+          <th scope='col'>Цена</th>
+          <th scope='col'>Бренд</th>
+          <th scope='col'>Цвет</th>
+          <th scope='col'>Количество</th>
+          <th scope='col'>Способ доставки</th>
+        </tr>
+      </thead>
+      <tbody>
+        {order.products.map((p, i) => (
+          <tr key={i}>
+            <td>
+              <b>{p.product.title}</b>
+            </td>
+            <td>{p.product.price}</td>
+            <td>{p.product.brand}</td>
+            <td>{p.product.color}</td>
+            <td>{p.count}</td>
+            <td>{p.product.shipping}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
   return (
     <>
       {orders.map((order) => (
-        <div key={order._id} className='row pb-5'>
+        <div key={order._id} className='row'>
           <ShoPaymentInfo order={order} />
-          <div className='row ml-5'>
-            <div className='col-md-4'>Статус доставки</div>
-            <div className='col-md-8 '>
+          <div className='row pl-5'>
+            <div className='col'>Статус доставки</div>
+            <div className='col '>
               <select
                 defaultValue={order.orderStatus}
                 name='status'
@@ -25,6 +53,7 @@ const Orders = ({ orders, handleStatusChange }) => {
               </select>{' '}
             </div>
           </div>
+          {showOrderInTable(order)}
         </div>
       ))}
     </>
