@@ -34,10 +34,9 @@ const Orders = ({ orders, handleStatusChange }) => {
     <>
       {orders.map((order) => (
         <div key={order._id} className='row'>
-          <ShoPaymentInfo order={order} />
-          <div className='row pl-5'>
-            <div className='col'>Статус доставки</div>
-            <div className='col '>
+          <div className='row'>
+            <div className='col-md-2 mt-2 mb-3 mr-4'>Статус доставки</div>
+            <div className='col md-2'>
               <select
                 defaultValue={order.orderStatus}
                 name='status'
@@ -53,6 +52,7 @@ const Orders = ({ orders, handleStatusChange }) => {
               </select>{' '}
             </div>
           </div>
+          <ShoPaymentInfo order={order} />
           {showOrderInTable(order)}
         </div>
       ))}

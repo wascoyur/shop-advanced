@@ -12,7 +12,7 @@ const ShowPaymentInfo = ({ order }) => {
         })}
       </div>
       <div className='col bage - bg-primary text-white'>
-        Статус оплаты: {order.orderStatus}
+        Статус оплаты: {order.paymentIntent.status}
       </div>
       <div className='col'>
         Способ оплаты: {order.paymentIntent.payment_method_types[0]}

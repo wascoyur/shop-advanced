@@ -1,10 +1,9 @@
-import { Col } from 'antd';
-import React, { useState, useEffect } from 'react';
-import AdminNav from '../../components/nav/AdminNav';
-import { getOrders, changeStatus } from '../../functions/admin';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import AdminNav from '../../components/nav/AdminNav';
 import Orders from '../../components/orders/Orders';
+import { changeStatus, getOrders } from '../../functions/admin';
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -22,7 +21,7 @@ const AdminDashboard = () => {
   };
   const handleStatusChange = (orderId, orderStatus) => {
     changeStatus(orderId, orderStatus, user.token).then((res) => {
-      toast.success('Статус заказа обновлен.');
+      toast.success('Статус доставки обновлен.');
       loadOrders();
     });
   };
@@ -33,11 +32,11 @@ const AdminDashboard = () => {
           <AdminNav />
         </div>
 
-        <Col>
+        <div className='col-md-10'>
           <h4>Панель администратора</h4>
           {/* {JSON.stringify(orders)} */}
           <Orders handleStatusChange={handleStatusChange} orders={orders} />
-        </Col>
+        </div>
       </div>
     </div>
   );
