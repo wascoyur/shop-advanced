@@ -23,6 +23,18 @@ const Cart = ({ history }) => {
       })
       .catch((err) => console.log('err:', err));
   };
+
+  const saveCashOrderToDb = () => {
+    dispatch({ type: 'COD', payload: true });
+    userCart(cart, user.token)
+      .then((res) => {
+        // console.log('res:', res);
+        if (res.data.ok) {
+          history.push('/checkout');
+        }
+      })
+      .catch((err) => console.log('err:', err));
+  };
   const showCartItems = () => {
     return (
       <table className='table table-bordered'>
@@ -78,12 +90,21 @@ const Cart = ({ history }) => {
           Итого: <b>{getTotal()} руб</b>
           <hr />
           {user ? (
-            <button
-              onClick={saveOrderToDb}
-              disabled={!cart.length}
-              className='btn btn-sm btn-primary mt-2'>
-              оформить заказ
-            </button>
+            <>
+              <button
+                onClick={saveOrderToDb}
+                disabled={!cart.length}
+                className='btn btn-sm btn-primary mt-2'>
+                оформить заказ
+              </button>
+
+              <button
+                onClick={saveCashOrderToDb}
+                disabled={!cart.length}
+                className='btn btn-sm btn-warning mt-2'>
+                Оплатить при получении
+              </button>
+            </>
           ) : (
             <button className='btn btn-sm btn-primary mt-2'>
               <Link to={{ pathname: '/login', state: { from: 'cart' } }}>

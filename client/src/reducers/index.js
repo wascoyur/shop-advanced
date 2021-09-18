@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { cartReducer } from './cartReducer';
+import { codReducer } from './CODReducer';
 import { couponReducer } from './couponReducer';
 import { drawerReducer } from './drawerReducer';
 import { searchReducer } from './searchReducer';
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   drawer: drawerReducer,
   couponReducer: couponReducer,
+  COD: codReducer,
 });
 
 export default rootReducer;
