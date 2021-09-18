@@ -25,7 +25,7 @@ router.post('/user/cart/coupon', authCheck, applyCouponToUserCart);
 router.post('/user/order', authCheck, createOrder);
 router.get('/user/orders', authCheck, orders);
 
-router.post('/user/wishlist', authCheck, addToWishlist);
+router.post('/user/addtowishlist', authCheck, addToWishlist);
 router.get('/user/wishlist', authCheck, getWishlist);
 router.delete('/user/wishlist/:productId', authCheck, removeFromWishlist);
 

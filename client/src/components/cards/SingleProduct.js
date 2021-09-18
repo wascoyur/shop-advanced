@@ -3,22 +3,26 @@ import { Card, Tabs, Tooltip } from 'antd';
 import React, { Fragment, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
 import RatingModal from '../modal/RatingModal';
 import ProductListItem from './ProductListItem';
 import _ from 'lodash';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToWishList } from '../../functions/user';
+import { toast } from 'react-toastify';
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, description, images, _id } = product;
   const [toltip, setTooltip] = useState('Нажмите для добавления в корзину');
+  const { user, cart } = useSelector((state) => ({ ...state }));
 
   const dispatch = useDispatch();
+  let history = useHistory();
 
   const handleAddToCart = () => {
     let cart = [];
@@ -40,6 +44,17 @@ const SingleProduct = ({ product, onStarClick, star }) => {
     dispatch({
       type: 'SET_VISIBLE',
       payload: true,
+    });
+  };
+
+  const handleToWishList = (e) => {
+    // debugger;
+    // e.prevent.default();
+    addToWishList(_id, user.token).then((res) => {
+      console.log('ДоТовар добавлен в список желаний', res.data);
+
+      toast.success('Товар добавлен в список желаний');
+      history.push('/user/wishlist');
     });
   };
 
@@ -90,11 +105,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
               Добавить в корзину
             </Tooltip>,
 
-            <Link to='/'>
+            <a onClick={(e) => handleToWishList(e)}>
               <HeartOutlined className='text-info' />
               <br />
               Добавить в мои желания
-            </Link>,
+            </a>,
 
             <RatingModal>
               <StarRatings
