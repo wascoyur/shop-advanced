@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCartInCheckout from '../components/cards/ProductCartInCheckout';
@@ -7,6 +7,7 @@ import { userCart } from '../functions/user';
 const Cart = ({ history }) => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
+
   const getTotal = () => {
     return cart.reduce((current, next) => {
       return current + next.count * next.price;

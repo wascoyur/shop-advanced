@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   applyCoupon,
+  createCashOrderForUser,
   emptyUserCart,
   getUserCart,
   saveUserAddress,
@@ -14,7 +15,7 @@ import Payment from './Payment';
 
 const Checkout = ({ history }) => {
   const dispatch = useDispatch();
-  const { user, Reducer } = useSelector((state) => ({ ...state }));
+  const { user, COD } = useSelector((state) => ({ ...state }));
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState('');
@@ -115,6 +116,29 @@ const Checkout = ({ history }) => {
     </>
   );
 
+  const createCashOrder = () => {
+    console.log('createCashOrder -->res.data');
+
+    createCashOrderForUser(user.token).then((res) =>
+      console.log('createCashOrder -->res.data', res.data),
+    );
+  };
+  const showCOD = () => (
+    <button
+      className='btn btn-primary'
+      disabled={!addresSaved || !products.length}
+      onClick={() => createCashOrder()}>
+      Оплатить при получении
+    </button>
+  );
+  const showPayButton = () => (
+    <button
+      className='btn btn-primary'
+      disabled={!addresSaved || !products.length}
+      onClick={() => history.push('/payment')}>
+      Оплатить заказ
+    </button>
+  );
   return (
     <div className='row'>
       <div className='col-md-6'>
@@ -145,14 +169,8 @@ const Checkout = ({ history }) => {
           </p>
         )}
         <div className='row'>
-          <div className='col-md-6'>
-            <button
-              className='btn btn-primary'
-              disabled={!addresSaved || !products.length}
-              onClick={() => history.push('/payment')}>
-              Оплатить заказ
-            </button>
-          </div>
+          {COD ? showCOD() : showPayButton()}
+          {/* <div className='col-md-6'></div> */}
           <div className='col-md-6'>
             <button
               className='btn btn-primary'
