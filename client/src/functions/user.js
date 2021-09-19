@@ -43,10 +43,10 @@ export const createOrder = async (stripeResponse, authtoken) =>
     { headers: { authtoken } },
   );
 
-export const createCashOrderForUser = async (stripeResponse, authtoken) =>
+export const createCashOrderForUser = async (authtoken, COD) =>
   await axios.post(
     `${process.env.REACT_APP_API}/user/cash-order`,
-    {},
+    { COD },
     { headers: { authtoken } },
   );
 

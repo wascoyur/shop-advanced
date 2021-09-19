@@ -119,7 +119,7 @@ const Checkout = ({ history }) => {
   const createCashOrder = () => {
     console.log('createCashOrder -->res.data');
 
-    createCashOrderForUser(user.token).then((res) =>
+    createCashOrderForUser(user.token, COD).then((res) =>
       console.log('createCashOrder -->res.data', res.data),
     );
   };
