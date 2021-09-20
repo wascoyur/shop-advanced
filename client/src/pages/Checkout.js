@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   applyCoupon,
   createCashOrderForUser,
@@ -7,11 +10,6 @@ import {
   getUserCart,
   saveUserAddress,
 } from '../functions/user';
-import { toast } from 'react-toastify';
-import RectQuill from 'react-quill';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import Payment from './Payment';
 
 const Checkout = ({ history }) => {
   const dispatch = useDispatch();
@@ -40,13 +38,22 @@ const Checkout = ({ history }) => {
       type: 'ADD_TO_CART',
       payload: [],
     });
+    dispatch({
+      type: 'COD',
+      payload: false,
+    });
+    dispatch({
+      type: 'COUPON_APPLIED',
+      payload: false,
+    });
     emptyUserCart(user.token).then((res) => {
       setProducts([]);
       setTotal(0);
       setTotalAfterDiscount(0);
       setCoupon('');
-      toast.success('Корзина очищена. Можно продолжать покупки.');
+      toast.success('Можно продолжать покупки');
     });
+    history.push('/user/history');
   };
 
   const saveAddressToDb = () => {
@@ -85,7 +92,7 @@ const Checkout = ({ history }) => {
     </>
   );
   const applyDiscountCoupon = () => {
-    console.log('coupon to back', coupon);
+    // console.log('coupon to back', coupon);
     applyCoupon(user.token, coupon).then((res) => {
       if (res.data) {
         setTotalAfterDiscount(res.data);
@@ -117,12 +124,18 @@ const Checkout = ({ history }) => {
   );
 
   const createCashOrder = () => {
-    console.log('createCashOrder -->res.data');
-
-    createCashOrderForUser(user.token, COD).then((res) =>
-      console.log('createCashOrder -->res.data', res.data),
-    );
+    // console.log('createCashOrder -->res.data');
+    applyDiscountCoupon();
+    createCashOrderForUser(user.token, COD, coupon).then((res) => {
+      // console.log('createCashOrder -->res.data', res.data);
+      if (res.data.ok) {
+        emptyCart();
+      } else {
+      }
+      // dispatch({action:w})
+    });
   };
+
   const showCOD = () => (
     <button
       className='btn btn-primary'

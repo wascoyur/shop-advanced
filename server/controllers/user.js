@@ -3,7 +3,7 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 const Coupon = require('../models/coupon');
 const Order = require('../models/order');
-const uniqueid = require('uniqueid');
+const uniqid = require('uniqid');
 
 exports.userCart = async (req, res) => {
   const { cart } = req.body;
@@ -73,7 +73,7 @@ exports.saveAddress = async (req, res) => {
 
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body;
-  console.log('coupon', coupon);
+  // console.log('coupon', coupon);
 
   const validCoupon = await Coupon.findOne({ name: coupon }).exec();
 
@@ -126,23 +126,31 @@ exports.createOrder = async (req, res) => {
 };
 
 exports.createOrderForCash = async (req, res) => {
-  const COD = req.body;
+  const { COD, couponApplied } = req.body;
   const user = await User.findOne({ email: req.user.email }).exec();
   let userCart = await Cart.findOne({ orderdBy: user._id })
     .populate('product', 'color')
     .exec();
 
+  let finalAmount = 0;
+  if (couponApplied && userCart.totalAfterDiscount) {
+    finalAmount = (userCart.totalAfterDiscount * 100).toFixed(2);
+  } else {
+    finalAmount = (userCart.cartTotal * 100).toFixed(2);
+  }
+
   let newOrder = await new Order({
     products: userCart.products,
     paymentIntent: {
-      id: uniqueid(),
-      amount: userCart.cartTotal * 100,
+      id: uniqid(),
+      amount: finalAmount,
       currency: 'RUB',
-      status: 'Cash On Delivery',
-      created: Date.now(),
-      payment_method_types: ['cash'],
+      status: 'Ожидает оплаты',
+      created: Math.floor(Date.now() / 1000),
+      payment_method_types: ['Наличные'],
     },
     orderdBy: user._id,
+    status: 'Cash On Delivery',
   }).save();
 
   console.log('Cash oreder --->', newOrder);
@@ -158,7 +166,7 @@ exports.createOrderForCash = async (req, res) => {
 
   let updated = await Product.bulkWrite(bulkOption, {});
 
-  res.json({ ok: bulkOption });
+  res.json({ ok: true });
 };
 
 exports.orders = async (req, res) => {

@@ -5,7 +5,7 @@ const ShowPaymentInfo = ({ order }) => {
     <div className='row ml-3'>
       <div className='col'>OrderId: {order.paymentIntent.id}</div>
       <div className=' col'>
-        Оплаченная сумма:{' '}
+        Сумма к оплате:{' '}
         {(order.paymentIntent.amount / 100).toLocaleString('ru-Ru', {
           style: 'currency',
           currency: 'RUB',

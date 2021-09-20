@@ -8,14 +8,18 @@ const Cart = ({ history }) => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   saveOrderToDb();
+  // }, []);
+
   const getTotal = () => {
     return cart.reduce((current, next) => {
       return current + next.count * next.price;
     }, 0);
   };
 
-  const saveOrderToDb = () => {
-    userCart(cart, user.token)
+  const saveOrderToDb = async () => {
+    await userCart(cart, user.token)
       .then((res) => {
         // console.log('res:', res);
         if (res.data.ok) {
