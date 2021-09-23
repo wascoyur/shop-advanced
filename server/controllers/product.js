@@ -59,7 +59,7 @@ exports.remove = async (req, res) => {
     const deleted = await Product.findOneAndRemove({
       _id: req.params.slug,
     }).exec();
-    console.log('slug: req.params.slug', req.params.slug, 'deleted', deleted);
+    // console.log('slug: req.params.slug', req.params.slug, 'deleted', deleted);
 
     res.json(deleted);
   } catch (error) {
@@ -271,7 +271,7 @@ exports.getAttributes = async (req, res) => {
   if (product !== '') {
     title = { title: product };
   }
-  console.log('attr:', req.body);
+  // console.log('attr:', req.body);
 
   const allAttributes = await Product.distinct(attribute, title);
   // console.log('allAttributes', allAttributes);

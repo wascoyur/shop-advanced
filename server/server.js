@@ -14,13 +14,17 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology:true
+    useUnifiedTopology: true,
   })
   .then(() => console.log('DB CONNECTED'))
   .catch((err) => console.log('DB CONNECTION ERR', err));
 
 // middlewares
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'production') {
+} else {
+  app.use(morgan('dev'));
+}
+
 app.use(express.json({ limit: '2mb' }));
 app.use(cors());
 

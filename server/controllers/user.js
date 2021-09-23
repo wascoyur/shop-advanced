@@ -120,7 +120,7 @@ exports.createOrder = async (req, res) => {
     };
   });
   let updated = await Product.bulkWrite(bulkOption, {});
-  console.log('--->QUATITY & SOLD:', updated);
+  // console.log('--->QUATITY & SOLD:', updated);
 
   res.json({ ok: true });
 };
@@ -153,7 +153,7 @@ exports.createOrderForCash = async (req, res) => {
     status: 'Cash On Delivery',
   }).save();
 
-  console.log('Cash oreder --->', newOrder);
+  // console.log('Cash oreder --->', newOrder);
 
   let bulkOption = userCart.products.map((item) => {
     return {
