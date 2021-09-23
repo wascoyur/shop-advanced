@@ -27,7 +27,7 @@ const ProductCartInCheckout = ({ p }) => {
       );
       return;
     }
-    if (typeof window !== 'unefined') {
+    if (typeof window !== 'undefined') {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
       }
@@ -45,7 +45,7 @@ const ProductCartInCheckout = ({ p }) => {
   const hanndleRemove = () => {
     let cart = [];
 
-    if (typeof window !== 'unefined') {
+    if (typeof window !== 'undefined') {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
       }

@@ -1,9 +1,7 @@
-import React, { Fragment, useEffect } from 'react';
-import { getSub } from '../../functions/sub';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { Row, Col } from 'antd';
+import { Col, Row } from 'antd';
+import React, { Fragment, useEffect, useState } from 'react';
 import ProductCard from '../../components/cards/ProductCard';
+import { getSub } from '../../functions/sub';
 
 const SubHome = ({ match }) => {
   const [subs, setSub] = useState({});

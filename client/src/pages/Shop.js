@@ -5,17 +5,17 @@ import {
 } from '@ant-design/icons';
 import { Menu, Radio, Slider, Space } from 'antd';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../components/cards/ProductCard';
 import Star from '../components/forms/Star';
 import { getCategories } from '../functions/category';
+import { getAttributes } from '../functions/filters';
 import {
   fetchProductsByFilter,
   getProductsByCount,
 } from '../functions/product';
 import { getSubs } from '../functions/sub';
-import { getAttributes } from '../functions/filters';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -24,14 +24,14 @@ const Shop = () => {
   let { search } = useSelector((state) => ({ ...state }));
   const { text } = search;
   const [price, setPrice] = useState([0, 0]);
-  const { SubMenu, ItemGroup } = Menu;
+  const { SubMenu } = Menu;
   const [ok, setOk] = useState(false);
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
-  const [star, setStar] = useState('');
+  const [, setStar] = useState('');
   const [subs, setSubs] = useState([]);
-  const [sub, setSub] = useState('');
+  const [, setSub] = useState('');
   const [brands, setBrands] = useState([]);
   const [brand, setBrand] = useState([]);
   const [colors, setColors] = useState([]);
@@ -55,7 +55,7 @@ const Shop = () => {
     const delayed = setTimeout(() => {
       fetchProducts({ query: text });
       if (!text) {
-        loadAllProducts()
+        loadAllProducts();
       }
     }, 300);
     return () => clearTimeout(delayed);
@@ -91,7 +91,7 @@ const Shop = () => {
     setStar('');
     setBrand('');
     setColor('');
-    setShippingMethod('')
+    setShippingMethod('');
   };
 
   const handleSlider = (value) => {
@@ -174,7 +174,6 @@ const Shop = () => {
       </Menu.Item>
     ));
 
- 
   const handleBrands = (e) => {
     resetFilters();
     setBrand(e.target.value);
@@ -196,7 +195,6 @@ const Shop = () => {
     ));
   };
 
-  
   const handleColors = (e) => {
     resetFilters();
     setColor(e.target.value);
@@ -219,11 +217,11 @@ const Shop = () => {
   };
 
   const handleShippingMethods = (e) => {
-    resetFilters()
-    setShippingMethod(e.target.value)
-    fetchProducts({shipping:e.target.value})
-   };
-  
+    resetFilters();
+    setShippingMethod(e.target.value);
+    fetchProducts({ shipping: e.target.value });
+  };
+
   const showShippingMethods = () => {
     return shippingMethods.map((s) => (
       <Radio

@@ -30,18 +30,16 @@ const ProductCreate = () => {
   const [subOptions, setSubOptions] = useState([]);
   const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const loadCategories = useCallback(() => {
     getCategories().then((item) =>
       setValues({ ...values, categories: item.data }),
     );
-  },[])
+  }, []);
 
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

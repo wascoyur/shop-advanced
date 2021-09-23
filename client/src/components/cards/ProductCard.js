@@ -1,13 +1,12 @@
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Tooltip } from 'antd';
-import React, { useState } from 'react';
-import { Fragment } from 'react';
+import _ from 'lodash';
+import React, { Fragment, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { showAverege } from '../../functions/rating';
 import blank from '../../images/blank.png';
-import _ from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 const { Meta } = Card;
 
@@ -67,7 +66,7 @@ const ProductCard = ({ product }) => {
         }
         actions={[
           <Tooltip title={toltip}>
-            <a onClick={handleAddToCart}>
+            <a onClick={handleAddToCart} href='#'>
               <ShoppingCartOutlined className='text-danger' />
               <br />
               {product.quantity < 1 ? (
