@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 const { readdirSync } = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 // app
@@ -21,6 +22,11 @@ mongoose
 
 // middlewares
 if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, 'build');
+  app.use(express.static(buildPath));
+  app.get('*', (req, res) => {
+    res.sendFile(buildPath);
+  });
 } else {
   app.use(morgan('dev'));
 }
