@@ -9,9 +9,23 @@ https://shop-advanced.herokuapp.com/
 Подключение личного кабинета покупателя
 Наличие в системе Администратора
 ### Возможности Администратора ###
+Просмотр списка покупок (оплаченных) пользователя и возможность менять статус заказа
+![image](https://user-images.githubusercontent.com/15821848/134780602-75f58157-66dd-4206-bbc3-a3eb4d12b608.png)
+
 Добавление категорий товаров
+![image](https://user-images.githubusercontent.com/15821848/134780640-61842f6f-b1c7-447c-9d71-77995a644d6a.png)
+
 Добавление/редактирование подкатегорий товаров
+![image](https://user-images.githubusercontent.com/15821848/134780646-78f34252-958b-4f3b-b011-f29629698d8e.png)
+
 Добавление товаров, описаний, фотографий товаров
+![image](https://user-images.githubusercontent.com/15821848/134780608-ac49cede-23e0-4415-bb95-f69ae5960b08.png)
+![image](https://user-images.githubusercontent.com/15821848/134780620-8a0fa464-5b7c-4e09-9ab6-9bf0ab201f23.png)
+
+Добавление талонов на скидку
+![image](https://user-images.githubusercontent.com/15821848/134780664-ad2f80eb-51dd-4ff2-a492-78a41917a316.png)
+
+
 учетная запись администратора: admin@admin.ru пароль: 654321
 ### Возможности пользователя ###
 Просмотр и фильтрация товаров: по цене, категориям, производителю и прочим атрибутом товара.
