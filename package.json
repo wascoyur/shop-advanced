@@ -1,6 +1,10 @@
 {
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
   "scripts": {
-    "heroku-prebuild": "cd ./client && npm install && npm run build && cd ../server  && npm install",
-    "start": "cd ./client && npm start && cd ../server npm start"
+    "heroku-prebuild": "cd ./client && npm install && cd ../server  && npm install",
+    "start": "cd server && start "
   }
 }
