@@ -4,7 +4,7 @@
     "npm": "7.x"
   },
   "scripts": {
-    "heroku-prebuild": "cd ./client && npm install && cd ../server  && npm install ",
+    "heroku-prebuild": "cd ./client && npm install && cd ../server  && npm install && cd ../client && npm run build",
     "start": "cd server && npm start "
   }
 }
