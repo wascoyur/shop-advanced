@@ -207,3 +207,11 @@ exports.removeFromWishlist = async (req, res) => {
   ).exec();
   res.json({ ok: true });
 };
+
+exports.getAllUsers = async (req, res) => {
+  const count = req.params.slug;
+  console.log('count--->', count);
+
+  const users = await User.find().limit(parseInt(count)).exec();
+  res.json(users);
+};

@@ -14,6 +14,7 @@ const {
   getWishlist,
   removeFromWishlist,
   createOrderForCash,
+  getAllUsers,
 } = require('../controllers/user');
 
 // console.log('routes',authCheck);
@@ -30,5 +31,6 @@ router.get('/user/orders', authCheck, orders);
 router.post('/user/addtowishlist', authCheck, addToWishlist);
 router.get('/user/wishlist', authCheck, getWishlist);
 router.delete('/user/wishlist/:productId', authCheck, removeFromWishlist);
+router.post('/user/getUserList/:slug', getAllUsers);
 
 module.exports = router;
