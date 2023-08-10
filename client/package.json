@@ -31,7 +31,7 @@
     "typewriter-effect": "^2.18.0"
   },
   "scripts": {
-    "start": "HOST=localhost react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build && mv build ../server",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -52,9 +52,9 @@
     ]
   },
   "devDependencies": {
-    "terser-brunch": "^4.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2"
+    "@testing-library/user-event": "^7.1.2",
+    "terser-brunch": "^4.1.0"
   }
 }
